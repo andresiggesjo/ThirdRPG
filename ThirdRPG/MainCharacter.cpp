@@ -14,11 +14,11 @@ CMainCharacter::CMainCharacter(CSDL_Setup* passed_SDL_Setup, int *passed_MouseX,
 	MouseY = passed_MouseY;
 	borders = passed_borders;
 	health = 200;
-	mana = 200;
 
+	create = true;
 	bob = new CSprite(csdl_setup->GetRenderer(),"data/mainchar.png", 300,250, 100,120, CCollisionRectangle(30,20,50,90));
 	healthbar = new CSprite(csdl_setup->GetRenderer(), "data/health.png", 75,675,130,30, CCollisionRectangle(0,0,0,0)); 
-	manabar = new CSprite(csdl_setup->GetRenderer(), "data/mana.png", healthbar->GetX() + 300,675,200,30, CCollisionRectangle(0,0,0,0));
+
 
 	bob->SetUpAnimation(4,4);
 	bob->SetOrgin(bob->GetWidth()/2.0f, bob->GetHeight());
@@ -36,12 +36,9 @@ CMainCharacter::CMainCharacter(CSDL_Setup* passed_SDL_Setup, int *passed_MouseX,
 
 CMainCharacter::~CMainCharacter(void)
 {
-	//delete bob;
+
 	delete bob;
 	delete healthbar;
-	delete manabar;
-	//DET ÄR BULLET SOM ÄR ARG PÅ ANDO :(
-
 
 }
 
@@ -65,8 +62,6 @@ void CMainCharacter::draw()
 		bob->Draw();
 		healthbar->SetWidth(health);
 		healthbar->Draw();
-		manabar->SetWidth(mana);
-		manabar->Draw();
 		fire();
 		if(firebullet)
 		{
@@ -214,14 +209,8 @@ void CMainCharacter::updateControls()
 
 void CMainCharacter::update()
 {
-	//bulletcheck = SDL_GetTicks();
-	//bulletcheck = bulletcheck / 1000;
+
 	updateAnimations();
-	//std::cout<<bulletcheck<<std::endl;
-	//if(bulletcheck % 3 == 0)
-	//{
-	//	mana = 200;
-	//}
 	updateControls();
 
 }
@@ -239,8 +228,7 @@ void CMainCharacter::fire()
 
 	if (csdl_setup->GetMainEvent()->type == SDL_KEYDOWN)
 	{ 
-		//if(mana == 200)
-		//{
+
 		
 		if (csdl_setup->GetMainEvent()->key.keysym.sym)
 		{
@@ -249,18 +237,20 @@ void CMainCharacter::fire()
 				switch (csdl_setup->GetMainEvent()->key.keysym.sym)
 				{
 				case SDLK_SPACE:
-					
-
+				
+					if(create)
+					{
 					bullet = new CSprite(csdl_setup->GetRenderer(), "data/fireball_1.png", bob->GetX(),bob->GetY(),100,120, CCollisionRectangle(0,50,75,75)); 
 					bullet->SetUpAnimation(8,8);
 					bullet->SetOrgin(bullet->GetWidth()/2.0f, bullet->GetHeight());
 					firebullet = true;
-					//mana = 0;
+
 					bobcurrentx = bob->GetX();
 					bobcurrenty = bob->GetY();
 					anglez = atan2(Follow_Point_Y - bob->GetY(), Follow_Point_X - bob->GetX());
 					anglez = (anglez * (180/3.14)) + 180;
-					
+					create = false;
+					}
 					
 					break;
 
@@ -301,6 +291,7 @@ void CMainCharacter::fire()
 			{
 				firebullet = false;
 				delete bullet;
+				create = true;
 			}
 
 			
@@ -327,6 +318,7 @@ void CMainCharacter::fire()
 			{
 				firebullet = false;
 				delete bullet;
+				create = true;
 			}
 
 
@@ -354,6 +346,7 @@ void CMainCharacter::fire()
 			{
 				firebullet = false;
 				delete bullet;
+				create = true;
 			}
 
 
@@ -381,6 +374,7 @@ void CMainCharacter::fire()
 			{
 				firebullet = false;
 				delete bullet;
+				create = true;
 			}
 
 
