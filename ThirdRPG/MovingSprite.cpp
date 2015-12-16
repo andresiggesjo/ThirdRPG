@@ -36,17 +36,11 @@ void CMovingSprite::setMouseFollow(bool cond)
 	mouseFollow = cond;
 
 }
-void CMovingSprite::DDraw()
-{
-	this->Draw();
-
-}
 
 void CMovingSprite::update()
 {
 
 	updateAnimations();
-	updateControls();
 
 }
 void CMovingSprite::updateAnimations()
@@ -94,66 +88,12 @@ void CMovingSprite::updateAnimations()
 
 }
 
-void CMovingSprite::handleMouse()
+void CMovingSprite::move()
 {
 
 
 }
-void CMovingSprite::updateControls()
-{
-	if(mouseFollow == true)
-	{
-	//spelspecifik movement
-	if (csdl_setup->GetMainEvent()->type == SDL_MOUSEBUTTONDOWN || csdl_setup->GetMainEvent()->type == SDL_MOUSEMOTION)
-	{
-		
-		if (csdl_setup->GetMainEvent()->button.button == SDL_BUTTON_LEFT)
-		{
-			std::cout<<*MouseX<<std::endl;
-			Follow_Point_X = *MouseX;
-			Follow_Point_Y = *MouseY;
 
-			Follow = true;
-			handleMouse();
-		}
-	}
-
-	if (timeCheck+10 < SDL_GetTicks() && Follow)
-	{
-
-		distance = GetDistance(GetX(), GetY(), Follow_Point_X, Follow_Point_Y);
-
-		if (distance == 0)
-			stopAnimation = true;
-		else
-			stopAnimation = false;
-
-		
-
-			
-		
-
-		if (distance > 15)
-		{
-			if (GetX() != Follow_Point_X)
-			{
-				SetX( GetX() -  ((GetX()-Follow_Point_X)/distance) * 1.5f );
-
-			}
-
-			if (GetY() != Follow_Point_Y)
-			{
-				SetY( GetY() -  ((GetY()-Follow_Point_Y)/distance) * 1.5f );
-			}
-		}
-		else
-			Follow = false;
-
-		timeCheck = SDL_GetTicks();
-	
-	}
-}
-}
 
 double CMovingSprite::GetDistance(int X1, int Y1, int X2, int Y2)
 {

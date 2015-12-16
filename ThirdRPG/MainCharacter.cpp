@@ -7,21 +7,23 @@
    #endif
 #endif  // _DEBUG
 
-CMainCharacter::CMainCharacter(CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY,std::vector<CSprite*> passed_borders)
+CMainCharacter::CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY)
+	:  CMovingSprite(passed_renderer, FilePath, x, y , w, h, passed_CollisionRect, passed_SDL_Setup, passed_MouseX, passed_MouseY)
+
+	
 {
 	csdl_setup = passed_SDL_Setup;
 	MouseX = passed_MouseX;
 	MouseY = passed_MouseY;
-	borders = passed_borders;
+
 	health = 200;
 
 	create = true;
-	bob = new CSprite(csdl_setup->GetRenderer(),"data/mainchar.png", 300,250, 100,120, CCollisionRectangle(30,20,50,90));
 	healthbar = new CSprite(csdl_setup->GetRenderer(), "data/health.png", 75,675,130,30, CCollisionRectangle(0,0,0,0)); 
 
 
-	bob->SetUpAnimation(4,4);
-	bob->SetOrgin(bob->GetWidth()/2.0f, bob->GetHeight());
+	SetUpAnimation(4,4);
+	SetOrgin(GetWidth()/2.0f, GetHeight());
 	bulletcheck = SDL_GetTicks();
 
 	timeCheck = SDL_GetTicks();
@@ -37,7 +39,7 @@ CMainCharacter::CMainCharacter(CSDL_Setup* passed_SDL_Setup, int *passed_MouseX,
 CMainCharacter::~CMainCharacter(void)
 {
 
-	delete bob;
+
 	delete healthbar;
 
 }
@@ -50,7 +52,7 @@ double CMainCharacter::GetDistance(int X1, int Y1, int X2, int Y2)
 	return distance;
 }
 
-void CMainCharacter::draw()
+void CMainCharacter::Draw()
 {
 
 	if(health == 0 || health < 0)
@@ -59,7 +61,8 @@ void CMainCharacter::draw()
 	}
 	else
 	{
-		bob->Draw();
+		//Draw();
+		CMovingSprite::Draw();
 		healthbar->SetWidth(health);
 		healthbar->Draw();
 		fire();
@@ -74,7 +77,8 @@ void CMainCharacter::draw()
 }
 void CMainCharacter::updateAnimations()
 {
-	float angle = atan2(Follow_Point_Y - bob->GetY(), Follow_Point_X - bob->GetX());
+	//generell move animation
+	float angle = atan2(Follow_Point_Y - GetY(), Follow_Point_X - GetX());
 	angle = (angle * (180/3.14)) + 180;
 
 	if (!stopAnimation)
@@ -84,41 +88,39 @@ void CMainCharacter::updateAnimations()
 			//up
 
 			if (distance > 15)
-				bob->PlayAnimation(0,3,3,200);
+				PlayAnimation(0,3,3,200);
 			else
-				bob->PlayAnimation(1,1,3,200);
+				PlayAnimation(1,1,3,200);
 		}
 		else if (angle > 135 && angle <= 225)
 		{
 			//right
 			if (distance > 15)
-				bob->PlayAnimation(0,3,2,200);
+				PlayAnimation(0,3,2,200);
 			else
-				bob->PlayAnimation(1,1,2,200);
+				PlayAnimation(1,1,2,200);
 		}
 		else if (angle > 225 && angle <= 315)
 		{
 			//down
 			if (distance > 15)
-				bob->PlayAnimation(0,3,0,200);
+				PlayAnimation(0,3,0,200);
 			else
-				bob->PlayAnimation(1,1,0,200);
+				PlayAnimation(1,1,0,200);
 		}
 		else if ((angle <= 360 && angle > 315) || (angle >=0 && angle <= 45))
 		{
 			//left
 			if (distance > 20)
-				bob->PlayAnimation(0,3,1,200);
+				PlayAnimation(0,3,1,200);
 			else
-				bob->PlayAnimation(1,1,1,200);
+				PlayAnimation(1,1,1,200);
 		}
 	}
 
 }
 void CMainCharacter::updateControls()
 {
-
-
 
 
 	if (csdl_setup->GetMainEvent()->type == SDL_MOUSEBUTTONDOWN || csdl_setup->GetMainEvent()->type == SDL_MOUSEMOTION)
@@ -135,69 +137,27 @@ void CMainCharacter::updateControls()
 	if (timeCheck+10 < SDL_GetTicks() && Follow)
 	{
 
-		distance = GetDistance(bob->GetX(), bob->GetY(), Follow_Point_X, Follow_Point_Y);
+		distance = GetDistance(GetX(), GetY(), Follow_Point_X, Follow_Point_Y);
 
 		if (distance == 0)
 			stopAnimation = true;
 		else
 			stopAnimation = false;
 
-		for(int i = 0; i < borders.size(); i++)
-		{
-			if(bob->isColliding(borders[i]->GetCollisionRect()))
-			{
-
-
-
-				if (bob->GetX() > Follow_Point_X)
-				{
-					//left
-					bob->SetX(bob->GetX() + 5);
-					setHealth(getHealth() - 5);
-					Follow_Point_X = bob->GetX();
-
-				}
-				if (bob->GetX() < Follow_Point_X)
-				{
-					//right
-					bob->SetX(bob->GetX() - 5);
-					setHealth(getHealth() - 5);
-					Follow_Point_X = bob->GetX();
-
-				}
-
-				if (bob->GetY() > Follow_Point_Y)
-				{
-					//up
-					//buggar vid kollision om man inte ändrar followpointsen
-					Follow_Point_Y = bob->GetY() - 5;
-					bob->SetY(bob->GetY() + 5);
-					setHealth(getHealth() - 5);
-
-
-				}
-				if (bob->GetY() < Follow_Point_Y)
-				{
-					//down
-					Follow_Point_Y = bob->GetY() + 5;
-					bob->SetY(bob->GetY() - 5);
-					setHealth(getHealth() - 5);
-
-
-				}
-			}
-		}
+		
+		
+		
 
 		if (distance > 15)
 		{
-			if (bob->GetX() != Follow_Point_X)
+			if (GetX() != Follow_Point_X)
 			{
-				bob->SetX( bob->GetX() -  ((bob->GetX()-Follow_Point_X)/distance) * 1.5f );
+				SetX( GetX() -  ((GetX()-Follow_Point_X)/distance) * 1.5f );
 			}
 
-			if (bob->GetY() != Follow_Point_Y)
+			if (GetY() != Follow_Point_Y)
 			{
-				bob->SetY( bob->GetY() -  ((bob->GetY()-Follow_Point_Y)/distance) * 1.5f );
+				SetY( GetY() -  ((GetY()-Follow_Point_Y)/distance) * 1.5f );
 			}
 		}
 		else
@@ -215,10 +175,7 @@ void CMainCharacter::update()
 	updateControls();
 
 }
-CSprite* CMainCharacter::getBob()
-{
-	return bob;
-}
+
 CSprite* CMainCharacter::getHealthbar()
 {
 	return healthbar;
@@ -226,7 +183,7 @@ CSprite* CMainCharacter::getHealthbar()
 void CMainCharacter::fire()
 {
 
-
+	std::cout<<"körs"<<std::endl;
 	if (csdl_setup->GetMainEvent()->type == SDL_KEYDOWN)
 	{ 
 
@@ -241,14 +198,14 @@ void CMainCharacter::fire()
 				
 					if(create)
 					{
-					bullet = new CSprite(csdl_setup->GetRenderer(), "data/fireball_1.png", bob->GetX(),bob->GetY(),100,120, CCollisionRectangle(0,50,75,75)); 
+					bullet = new CSprite(csdl_setup->GetRenderer(), "data/fireball_1.png", GetX(),GetY(),100,120, CCollisionRectangle(0,50,75,75)); 
 					bullet->SetUpAnimation(8,8);
 					bullet->SetOrgin(bullet->GetWidth()/2.0f, bullet->GetHeight());
 					firebullet = true;
 
-					bobcurrentx = bob->GetX();
-					bobcurrenty = bob->GetY();
-					anglez = atan2(Follow_Point_Y - bob->GetY(), Follow_Point_X - bob->GetX());
+					bobcurrentx = GetX();
+					bobcurrenty = GetY();
+					anglez = atan2(Follow_Point_Y - GetY(), Follow_Point_X - GetX());
 					anglez = (anglez * (180/3.14)) + 180;
 					create = false;
 					}
@@ -384,9 +341,6 @@ void CMainCharacter::fire()
 
 	}
 
-
-
-
 }
 CSprite* CMainCharacter::getBullet()
 {
@@ -395,4 +349,9 @@ CSprite* CMainCharacter::getBullet()
 bool CMainCharacter::getFirebullet()
 {
 	return firebullet;
+}
+CMovingSprite* CMainCharacter::getBob()
+{
+
+	return this;
 }

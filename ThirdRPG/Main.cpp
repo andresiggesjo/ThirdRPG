@@ -33,7 +33,7 @@ void CMain::addMouseMovement(CMovingSprite* objtocontrol)
 {
 	objtocontrol->setMouseFollow(true);
 }
-void CMain::addBackground(CSprite* background)
+void CMain::addBackground(CEnvironmentSprite* background)
 {
 
 	gameEntities.push_back(background);
@@ -48,7 +48,7 @@ void CMain::addEnemy(CEnemy* enemy)
 	//gameEntities.push_back(enemy);
 
 }
-void CMain::addBorders(CSprite* border1, CSprite* border2, CSprite* border3, CSprite* border4)
+void CMain::addBorders(CEnvironmentSprite* border1, CEnvironmentSprite* border2, CEnvironmentSprite* border3, CEnvironmentSprite* border4)
 {
 	gameEntities.push_back(border1);
 	gameEntities.push_back(border2);

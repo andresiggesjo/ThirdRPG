@@ -2,30 +2,31 @@
 #include "stdafx.h"
 #include "Sprite.h"
 #include "SDL_Setup.h"
+#include "MovingSprite.h"
 #include <math.h>
+#include "MovingSprite.h"
 #include <vector>
 
-class CMainCharacter
+class CMainCharacter :
+	public CMovingSprite
 {
 public:
-	CMainCharacter(CSDL_Setup* passed_SDL_Setup, int *MouseX, int *MouseY,std::vector<CSprite*> passed_borders);
+	CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY);
 	~CMainCharacter(void);
-
+	
 	void cleanup();
 	void updateFire();
 	void fire();
-	void updateAnimations();
 	void updateControls();
+	void updateAnimations();
 	void update();
-	void draw();
+	void Draw();
 	int getHealth(){ return health; }
 	void setHealth(int passed_health){ health = passed_health; }
-	CSprite* getBob();
+	CMovingSprite* getBob();
 	CSprite* getBullet();
 	CSprite* getHealthbar();
 	bool getFirebullet();
-	void PlayAnimation(int BeginFrame, int EndFrame, int Row, float Speed);
-	void SetUpAnimation(int passed_Amount_X, int passed_Amount_Y);
 
 	double GetDistance(int X1, int Y1, int X2, int Y2);
 
@@ -40,11 +41,11 @@ private:
 
 	CSDL_Setup* csdl_setup;
 
-	CSprite* bob;
+
 	CSprite* healthbar;
 	CSprite* bullet;
-	CSprite* manabar;
-	std::vector<CSprite*> borders;
+
+
 	int timeCheck;
 	int bulletcheck;
 
@@ -64,6 +65,7 @@ private:
 	float distance;
 	float bullet_distance;
 	bool stopAnimation;
+	bool create;
 
 };
 

@@ -2,6 +2,7 @@
 
 #pragma once
 #include "SDL_Setup.h"
+#include "EnvironmentSprite.h"
 #include "Sprite.h"
 #include <math.h> 
 #include "MainCharacter.h"
@@ -19,8 +20,8 @@ public:
 	void addMouseMovement(CMovingSprite* objtocontrol);
 	void addPlayer(CMovingSprite* player);
 	void addEnemy(CEnemy* enemy);
-	void addBorders(CSprite* border1, CSprite* border2, CSprite* border3, CSprite* border4);
-	void addBackground(CSprite* background);
+	void addBorders(CEnvironmentSprite* border1, CEnvironmentSprite* border2, CEnvironmentSprite* border3, CEnvironmentSprite* border4);
+	void addBackground(CEnvironmentSprite* background);
 	void cleanup();
 	int getMouseX(){ return *MouseX; }
 	int getMouseY(){ return *MouseY; }

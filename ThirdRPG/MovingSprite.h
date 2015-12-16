@@ -13,13 +13,13 @@ public:
 
 	double GetDistance(int X1, int Y1, int X2, int Y2);
 	void updateAnimations();
-	void updateControls();
-	void update();
-	void DDraw();
-	void handleMouse();
-	void setMouseFollow(bool cond);
 
-	//void Draw(); //overrides sprite draw
+	void update();
+
+
+	void setMouseFollow(bool cond);
+	void move();
+
 
 
 
