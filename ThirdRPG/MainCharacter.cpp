@@ -183,7 +183,6 @@ CSprite* CMainCharacter::getHealthbar()
 void CMainCharacter::fire()
 {
 
-	std::cout<<"körs"<<std::endl;
 	if (csdl_setup->GetMainEvent()->type == SDL_KEYDOWN)
 	{ 
 

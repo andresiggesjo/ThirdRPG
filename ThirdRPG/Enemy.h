@@ -9,17 +9,17 @@
 
 #include <math.h>
 
-class CEnemy
+class CEnemy : 
+	public CMovingSprite
 {
 public:
-	CEnemy(CSDL_Setup* passed_SDL_Setup, CMainCharacter* mc, int x, int y, std::vector<CSprite*> passed_borders);
+	CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY, CMainCharacter* mc);
 	~CEnemy(void);
 
 	void setMainchar();
 	double GetDistance(int X1, int Y1, int X2, int Y2);
 	int getHealth(){ return health;}
-	CSprite* getEnemy() { return enemy; }
-	void Update();
+	void update();
 	void UpdateControls();
 	void Draw();
 	bool isDead();
@@ -32,8 +32,8 @@ private:
 	CMainCharacter* mc;
 
 	CSDL_Setup* csdl_setup;
-	std::vector<CSprite*> borders;
-	CSprite* enemy;
+
+
 	int timeCheck;
 	int health;
 	bool Follow;

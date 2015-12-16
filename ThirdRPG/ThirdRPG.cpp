@@ -27,8 +27,9 @@ int main(int argc, char *argv[])
 	//game enteties   spelare och enemies
 	//CMovingSprite* bobnumerodos = new CMovingSprite(csdl_setup->GetRenderer(),"data/mainchar.png", 300,250, 100,120, CCollisionRectangle(30,20,50,90), csdl_setup, &MouseX, &MouseY);
 	CMainCharacter* bobnumerouno = new CMainCharacter(csdl_setup->GetRenderer(),"data/mainchar.png",300,250,100,120, CCollisionRectangle(30,20,50,90), csdl_setup, &MouseX, &MouseY);
-	CMovingSprite* enemy = new CMovingSprite(csdl_setup->GetRenderer(),"data/enemy.png", 500,400, 100,100,CCollisionRectangle(25, 0, 50, 100), csdl_setup,  &MouseX,  &MouseY);
-	CMovingSprite* enemy1 = new CMovingSprite(csdl_setup->GetRenderer(),"data/enemy.png", 600,300, 100,100,CCollisionRectangle(25, 0, 50, 100), csdl_setup, &MouseX,   &MouseY);
+	CEnemy* enemynumerouno = new CEnemy(csdl_setup->GetRenderer(),"data/enemy.png",500,400,100,100, CCollisionRectangle(25,0,50,100), csdl_setup, &MouseX, &MouseY, bobnumerouno);
+	//CMovingSprite* enemy = new CMovingSprite(csdl_setup->GetRenderer(),"data/enemy.png", 500,400, 100,100,CCollisionRectangle(25, 0, 50, 100), csdl_setup,  &MouseX,  &MouseY);
+	//CMovingSprite* enemy1 = new CMovingSprite(csdl_setup->GetRenderer(),"data/enemy.png", 600,300, 100,100,CCollisionRectangle(25, 0, 50, 100), csdl_setup, &MouseX,   &MouseY);
 
 
 	CEnvironmentSprite* grass = new CEnvironmentSprite(csdl_setup->GetRenderer(),"data/grass.bmp", 0, 0, 1080, 720, CCollisionRectangle(0, 0, 0, 0));
@@ -43,9 +44,9 @@ int main(int argc, char *argv[])
 	//cmain->addPlayer(bobnumerodos);
 	cmain->addPlayer(bobnumerouno);
 	//cmain->addMouseMovement(bobnumerodos);
-	cmain->addPlayer(enemy);
-	cmain->addPlayer(enemy1);
-
+	//cmain->addPlayer(enemy);
+	//cmain->addPlayer(enemy1);
+	cmain->addPlayer(enemynumerouno);
 	
 
 	cmain->GameLoop();
@@ -60,12 +61,13 @@ int main(int argc, char *argv[])
 	delete border2;
 	delete border3;
 	delete border4;
-	delete enemy;
-	delete enemy1;
+	delete enemynumerouno;
+	//delete enemy;
+	//delete enemy1;
 	delete csdl_setup;
 
 	_CrtDumpMemoryLeaks();
-	std::cout<<"memoryleak"<<std::endl;
+
 	
 	return 0;
 }
