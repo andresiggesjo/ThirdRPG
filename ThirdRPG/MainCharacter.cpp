@@ -201,8 +201,9 @@ void CMainCharacter::updateControls()
 			}
 		}
 		else
+		{
 			Follow = false;
-
+		}
 		timeCheck = SDL_GetTicks();
 	}
 }

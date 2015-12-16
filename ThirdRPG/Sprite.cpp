@@ -91,11 +91,7 @@ void CSprite::Draw()
 	//SDL_RenderCopy(renderer,CollisionImage, NULL, &CollisionRect.GetRectangle());
 	
 }
-void CSprite::DrawSteady()
-{
-    SDL_RenderCopy(renderer,image, &crop, &rect);
-    //SDL_RenderCopy(renderer,CollisionImage, NULL, &CollisionRect.GetRectangle());
-}
+
 
 void CSprite::SetX(float X)
 {
@@ -164,3 +160,7 @@ bool CSprite::isColliding(CCollisionRectangle theCollider)
     return !(CollisionRect.GetRectangle().x + CollisionRect.GetRectangle().w < theCollider.GetRectangle().x || CollisionRect.GetRectangle().y + CollisionRect.GetRectangle().h < theCollider.GetRectangle().y || CollisionRect.GetRectangle().x > theCollider.GetRectangle().x + theCollider.GetRectangle().w || CollisionRect.GetRectangle().y > theCollider.GetRectangle().y + theCollider.GetRectangle().h);
 }
 
+void CSprite::update()
+{
+
+}

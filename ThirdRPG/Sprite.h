@@ -7,10 +7,10 @@ class CSprite
 public:
 	CSprite(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect);
 	~CSprite(void);
+	CSprite();
 
+	virtual void Draw();
 
-	void Draw();
-	void DrawSteady();
 	CCollisionRectangle GetCollisionRect() { return CollisionRect; }
 	void SetX(float X);
 	void SetY(float Y);
@@ -24,6 +24,7 @@ public:
 	int GetWidth();
 	int GetHeight();
 
+	void update();
 	void SetOrgin(float X, float Y);
 	void PlayAnimation(int BeginFrame, int EndFrame, int Row, float Speed);
 	void SetUpAnimation(int passed_Amount_X, int passed_Amount_Y);

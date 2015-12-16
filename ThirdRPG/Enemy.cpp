@@ -11,7 +11,7 @@
 
 
 
-CEnemy::CEnemy(CSDL_Setup* passed_SDL_Setup, CMainCharacter* passed_mc, int x , int y, std::vector<CSprite*> passed_borders)
+CEnemy::CEnemy(CSDL_Setup* passed_SDL_Setup, CMovingSprite* passed_mc, int x , int y, std::vector<CSprite*> passed_borders)
 {
 
 	//BEHÖVER TA IN PLAYER X OCH PLAYER Y
@@ -21,14 +21,8 @@ CEnemy::CEnemy(CSDL_Setup* passed_SDL_Setup, CMainCharacter* passed_mc, int x , 
 	borders = passed_borders;
 
 	csdl_setup = passed_SDL_Setup;
-
-	//skapa nya enemies av klassen sprite, det viktiga är collisionrecten
 	enemy = new CSprite(csdl_setup->GetRenderer(),"data/enemy.png", x,y, 100,100,CCollisionRectangle(25, 0, 50, 100));
-
-	//start animation
 	enemy->SetUpAnimation(4,4);
-
-	//vart spawnen
 	enemy->SetOrgin(enemy->GetWidth()/2.0f, enemy->GetHeight());
 
 
@@ -110,41 +104,40 @@ void CEnemy::UpdateAnimation()
 void CEnemy::UpdateControls()
 {
 
-	if(mc->getHealth() > 0)
-	{
+	
 
-		Follow_Point_X = mc->getBob()->GetX();
-		Follow_Point_Y = mc->getBob()->GetY();
+		Follow_Point_X = mc->GetX();
+		Follow_Point_Y = mc->GetY();
 		Follow = true;
 
 		if (timeCheck+10 < SDL_GetTicks() && Follow)
 		{
 
-			if(enemy->isColliding(mc->getBob()->GetCollisionRect()))
+			if(enemy->isColliding(mc->GetCollisionRect()))
 			{
 
 				if (enemy->GetX() > Follow_Point_X)
 				{
 					enemy->SetX(enemy->GetX() + 50);
-					mc->setHealth(mc->getHealth() - 40);
+					
 
 
 				}
 				if (enemy->GetX() < Follow_Point_X)
 				{
 					enemy->SetX(enemy->GetX() - 50);
-					mc->setHealth(mc->getHealth() - 40);
+					
 				}
 
 				if (enemy->GetY() > Follow_Point_Y)
 				{
 					enemy->SetY(enemy->GetY() + 50);
-					mc->setHealth(mc->getHealth() - 40);
+					
 				}
 				if (enemy->GetY() < Follow_Point_Y)
 				{
 					enemy->SetY(enemy->GetY() - 50);
-					mc->setHealth(mc->getHealth() - 40);
+					
 				}
 
 			}
@@ -175,6 +168,7 @@ void CEnemy::UpdateControls()
 					}
 				}
 			}
+			/*
 			if(mc->getFirebullet() == true)
 			{
 				if(enemy->isColliding(mc->getBullet()->GetCollisionRect()))
@@ -182,7 +176,7 @@ void CEnemy::UpdateControls()
 					health = 0;
 				}
 			}
-
+			*/
 
 			distance = GetDistance(enemy->GetX(), enemy->GetY(), Follow_Point_X, Follow_Point_Y);
 
@@ -209,7 +203,7 @@ void CEnemy::UpdateControls()
 
 			timeCheck = SDL_GetTicks();
 		}
-	}
+	
 
 }
 
@@ -242,8 +236,4 @@ bool CEnemy::isDead()
 		return false;
 	}
 	
-}
-void CEnemy::setMainchar()
-{
-	mc = nullptr;
 }

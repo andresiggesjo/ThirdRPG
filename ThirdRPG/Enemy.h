@@ -4,6 +4,7 @@
 #include "SDL_Setup.h"
 #include "Environment.h"
 #include "MainCharacter.h"
+#include "MovingSprite.h"
 #include <vector>
 
 #include <math.h>
@@ -11,7 +12,7 @@
 class CEnemy
 {
 public:
-	CEnemy(CSDL_Setup* passed_SDL_Setup, CMainCharacter* mc, int x, int y, std::vector<CSprite*> passed_borders);
+	CEnemy(CSDL_Setup* passed_SDL_Setup, CMovingSprite* mc, int x, int y, std::vector<CSprite*> passed_borders);
 	~CEnemy(void);
 
 	void setMainchar();
@@ -28,7 +29,7 @@ private:
 
 	void UpdateAnimation();
 
-	CMainCharacter* mc;
+	CMovingSprite* mc;
 
 	CSDL_Setup* csdl_setup;
 	std::vector<CSprite*> borders;
