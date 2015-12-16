@@ -13,7 +13,7 @@ class CEnemy :
 	public CMovingSprite
 {
 public:
-	CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY, CMainCharacter* mc, std::vector<CSprite*> gameEntites);
+	CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY, CMainCharacter* mc);
 	~CEnemy(void);
 
 	void setMainchar();

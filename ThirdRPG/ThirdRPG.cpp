@@ -38,10 +38,10 @@ int main(int argc, char *argv[])
 
 	//lägg till allt i spelmotorn
 	cmain->addBackground(grass);
-	//cmain->addBorders(border1, border2, border3, border4);
+	cmain->addBorders(border1, border2, border3, border4);
 	cmain->addPlayer(bobnumerouno);
 	
-	CEnemy* enemynumerouno = new CEnemy(csdl_setup->GetRenderer(),"data/enemy.png",500,400,100,100, CCollisionRectangle(25,0,50,100), csdl_setup, &MouseX, &MouseY, bobnumerouno, cmain->getObjects());
+	CEnemy* enemynumerouno = new CEnemy(csdl_setup->GetRenderer(),"data/enemy.png",500,400,100,100, CCollisionRectangle(25,0,50,100), csdl_setup, &MouseX, &MouseY, bobnumerouno);
 	cmain->addPlayer(enemynumerouno);
 	//kör spelmotorns händelseloop
 	cmain->GameLoop();

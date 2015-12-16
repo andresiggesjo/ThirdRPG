@@ -357,14 +357,6 @@ CMovingSprite* CMainCharacter::getBob()
 bool CMainCharacter::shouldCollideWith(CSprite* sprite)
 {
 
-	if(CEnemy* temp = dynamic_cast<CEnemy*>(sprite))
-	{
-		return true;
-	}
-	if(CEnvironmentSprite* temp = dynamic_cast<CEnvironmentSprite*>(sprite))
-	{
-		return true;
-	}
 
   
   return false;

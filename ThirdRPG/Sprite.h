@@ -1,7 +1,7 @@
 #pragma once
-
 #include "stdafx.h"
 #include "CollisionRectangle.h"
+
 class CSprite
 {
 public:

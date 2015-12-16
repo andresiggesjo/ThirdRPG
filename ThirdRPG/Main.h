@@ -1,5 +1,3 @@
-
-
 #pragma once
 #include "SDL_Setup.h"
 #include "EnvironmentSprite.h"
