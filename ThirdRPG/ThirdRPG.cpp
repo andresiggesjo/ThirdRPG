@@ -15,18 +15,18 @@
 int main(int argc, char *argv[])
 {
 
-	
 	int MouseX = 0;
 	int MouseY = 0;
+
 	const int ScreenHeight = 720;
 	const int ScreenWidth = 1080;
 	CSDL_Setup* csdl_setup = new CSDL_Setup(false, ScreenWidth, ScreenHeight);
-	CMain* cmain = new CMain(ScreenWidth,ScreenHeight,csdl_setup);
+	CMain* cmain = new CMain(ScreenWidth,ScreenHeight,csdl_setup,&MouseX, &MouseY);
 
 	//game enteties   spelare och enemies
 	CMovingSprite* bobnumerodos = new CMovingSprite(csdl_setup->GetRenderer(),"data/mainchar.png", 300,250, 100,120, CCollisionRectangle(30,20,50,90), csdl_setup, &MouseX, &MouseY);
-	CEnemy* enemy = new CEnemy(csdl_setup, bobnumerodos, 500,400, borders);
-	CEnemy* enemy1 = new CEnemy(csdl_setup, bobnumerodos, 600,300, borders);
+	CMovingSprite* enemy = new CMovingSprite(csdl_setup->GetRenderer(),"data/enemy.png", 500,400, 100,100,CCollisionRectangle(25, 0, 50, 100), csdl_setup,  &MouseX,  &MouseY);
+	CMovingSprite* enemy1 = new CMovingSprite(csdl_setup->GetRenderer(),"data/enemy.png", 600,300, 100,100,CCollisionRectangle(25, 0, 50, 100), csdl_setup, &MouseX,   &MouseY);
 
 
 	
@@ -39,17 +39,16 @@ int main(int argc, char *argv[])
 	cmain->addBackground(grass);
 	cmain->addBorders(border1, border2, border3, border4);
 	cmain->addPlayer(bobnumerodos);
-	cmain->addEnemy(enemy);
-	cmain->addEnemy(enemy1);
+	cmain->addMouseMovement(bobnumerodos);
+	cmain->addPlayer(enemy);
+	cmain->addPlayer(enemy1);
 
-	//cmain->addEnemy(enemy,player,500,400);
-	//cmain->addEnemy(enemy1,player,600,300);
 	
 
 	cmain->GameLoop();
 
 
-
+	// delete ALLLLT amana
 	delete cmain;
 	delete bobnumerodos;
 	delete grass;
@@ -57,6 +56,9 @@ int main(int argc, char *argv[])
 	delete border2;
 	delete border3;
 	delete border4;
+	delete enemy;
+	delete enemy1;
+	delete csdl_setup;
 
 	_CrtDumpMemoryLeaks();
 	std::cout<<"memoryleak"<<std::endl;

@@ -10,7 +10,7 @@ CMovingSprite::CMovingSprite(SDL_Renderer* passed_renderer, std::string FilePath
 	//spelspefickt musX å musY
 	MouseX = passed_MouseX;
 	MouseY = passed_MouseY;
-
+	mouseFollow = false;
 	//spelspeficikt(4,4)
 	SetUpAnimation(4,4);
 	SetOrgin(GetWidth()/2.0f, GetHeight());
@@ -30,9 +30,15 @@ CMovingSprite::~CMovingSprite(void)
 {
 }
 
-void CMovingSprite::Draw()
+
+void CMovingSprite::setMouseFollow(bool cond)
 {
-	//Draw();
+	mouseFollow = cond;
+
+}
+void CMovingSprite::DDraw()
+{
+	this->Draw();
 
 }
 
@@ -95,14 +101,15 @@ void CMovingSprite::handleMouse()
 }
 void CMovingSprite::updateControls()
 {
-
+	if(mouseFollow == true)
+	{
 	//spelspecifik movement
 	if (csdl_setup->GetMainEvent()->type == SDL_MOUSEBUTTONDOWN || csdl_setup->GetMainEvent()->type == SDL_MOUSEMOTION)
 	{
 		
 		if (csdl_setup->GetMainEvent()->button.button == SDL_BUTTON_LEFT)
 		{
-			
+			std::cout<<*MouseX<<std::endl;
 			Follow_Point_X = *MouseX;
 			Follow_Point_Y = *MouseY;
 
@@ -145,6 +152,7 @@ void CMovingSprite::updateControls()
 		timeCheck = SDL_GetTicks();
 	
 	}
+}
 }
 
 double CMovingSprite::GetDistance(int X1, int Y1, int X2, int Y2)

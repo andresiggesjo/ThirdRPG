@@ -15,8 +15,9 @@ public:
 	void updateAnimations();
 	void updateControls();
 	void update();
-	void Draw();
+	void DDraw();
 	void handleMouse();
+	void setMouseFollow(bool cond);
 
 	//void Draw(); //overrides sprite draw
 
@@ -24,7 +25,7 @@ public:
 
 
 private:
-	
+	bool mouseFollow;
 	int *MouseX;
 	int *MouseY;
 	CSDL_Setup* csdl_setup;

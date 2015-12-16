@@ -13,14 +13,18 @@
 class CMain
 {
 public:
-	CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed_SDL_Setup);
+	CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed_SDL_Setup, int* passed_MouseX, int* passed_MouseY);
 	~CMain(void);
 	void GameLoop();
+	void addMouseMovement(CMovingSprite* objtocontrol);
 	void addPlayer(CMovingSprite* player);
 	void addEnemy(CEnemy* enemy);
 	void addBorders(CSprite* border1, CSprite* border2, CSprite* border3, CSprite* border4);
 	void addBackground(CSprite* background);
 	void cleanup();
+	int getMouseX(){ return *MouseX; }
+	int getMouseY(){ return *MouseY; }
+
 
 private:
 	int ScreenWidth;
@@ -46,8 +50,8 @@ private:
 	
 	CSDL_Setup* csdl_setup;
 
-	int MouseX;
-	int MouseY;
+	int *MouseX;
+	int *MouseY;
 	
 
 

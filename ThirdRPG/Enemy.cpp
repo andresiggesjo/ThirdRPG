@@ -11,7 +11,7 @@
 
 
 
-CEnemy::CEnemy(CSDL_Setup* passed_SDL_Setup, CMovingSprite* passed_mc, int x , int y, std::vector<CSprite*> passed_borders)
+CEnemy::CEnemy(CSDL_Setup* passed_SDL_Setup, CMainCharacter* passed_mc, int x , int y, std::vector<CSprite*> passed_borders)
 {
 
 	//BEHÖVER TA IN PLAYER X OCH PLAYER Y
@@ -104,40 +104,41 @@ void CEnemy::UpdateAnimation()
 void CEnemy::UpdateControls()
 {
 
-	
+	if(mc->getHealth() > 0)
+	{
 
-		Follow_Point_X = mc->GetX();
-		Follow_Point_Y = mc->GetY();
+		Follow_Point_X = mc->getBob()->GetX();
+		Follow_Point_Y = mc->getBob()->GetY();
 		Follow = true;
 
 		if (timeCheck+10 < SDL_GetTicks() && Follow)
 		{
 
-			if(enemy->isColliding(mc->GetCollisionRect()))
+			if(enemy->isColliding(mc->getBob()->GetCollisionRect()))
 			{
 
 				if (enemy->GetX() > Follow_Point_X)
 				{
 					enemy->SetX(enemy->GetX() + 50);
-					
+					mc->setHealth(mc->getHealth() - 40);
 
 
 				}
 				if (enemy->GetX() < Follow_Point_X)
 				{
 					enemy->SetX(enemy->GetX() - 50);
-					
+					mc->setHealth(mc->getHealth() - 40);
 				}
 
 				if (enemy->GetY() > Follow_Point_Y)
 				{
 					enemy->SetY(enemy->GetY() + 50);
-					
+					mc->setHealth(mc->getHealth() - 40);
 				}
 				if (enemy->GetY() < Follow_Point_Y)
 				{
 					enemy->SetY(enemy->GetY() - 50);
-					
+					mc->setHealth(mc->getHealth() - 40);
 				}
 
 			}
@@ -168,7 +169,6 @@ void CEnemy::UpdateControls()
 					}
 				}
 			}
-			/*
 			if(mc->getFirebullet() == true)
 			{
 				if(enemy->isColliding(mc->getBullet()->GetCollisionRect()))
@@ -176,7 +176,7 @@ void CEnemy::UpdateControls()
 					health = 0;
 				}
 			}
-			*/
+
 
 			distance = GetDistance(enemy->GetX(), enemy->GetY(), Follow_Point_X, Follow_Point_Y);
 
@@ -203,7 +203,7 @@ void CEnemy::UpdateControls()
 
 			timeCheck = SDL_GetTicks();
 		}
-	
+	}
 
 }
 
@@ -236,4 +236,8 @@ bool CEnemy::isDead()
 		return false;
 	}
 	
+}
+void CEnemy::setMainchar()
+{
+	mc = nullptr;
 }

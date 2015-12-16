@@ -12,7 +12,7 @@
 class CEnemy
 {
 public:
-	CEnemy(CSDL_Setup* passed_SDL_Setup, CMovingSprite* mc, int x, int y, std::vector<CSprite*> passed_borders);
+	CEnemy(CSDL_Setup* passed_SDL_Setup, CMainCharacter* mc, int x, int y, std::vector<CSprite*> passed_borders);
 	~CEnemy(void);
 
 	void setMainchar();
@@ -29,7 +29,7 @@ private:
 
 	void UpdateAnimation();
 
-	CMovingSprite* mc;
+	CMainCharacter* mc;
 
 	CSDL_Setup* csdl_setup;
 	std::vector<CSprite*> borders;

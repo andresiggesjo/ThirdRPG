@@ -9,23 +9,16 @@
    #endif
 #endif  // _DEBUG
 
-CMain::CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed_SDL_Setup)
+CMain::CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed_SDL_Setup, int* passed_Mouse_X, int* passed_Mouse_Y)
 {
 	ScreenWidth = passed_ScreenWidth;
 	ScreenHeight = passed_ScreenHeight;
-	quit = false;
-	
+	quit = false;	
 	csdl_setup = passed_SDL_Setup;
-
-
-
-	MouseX = 0;
-	MouseY = 0;
+	MouseX = passed_Mouse_X;
+	MouseY = passed_Mouse_Y;
 
 	//bob = new CMainCharacter(csdl_setup,&MouseX,&MouseY,borders);
-
-
-	
 
 }
 
@@ -35,6 +28,10 @@ CMain::~CMain(void)
 
 
 
+}
+void CMain::addMouseMovement(CMovingSprite* objtocontrol)
+{
+	objtocontrol->setMouseFollow(true);
 }
 void CMain::addBackground(CSprite* background)
 {
@@ -48,7 +45,7 @@ void CMain::addPlayer(CMovingSprite* player)
 
 void CMain::addEnemy(CEnemy* enemy)
 {
-	gameEntities.push_back(enemy);
+	//gameEntities.push_back(enemy);
 
 }
 void CMain::addBorders(CSprite* border1, CSprite* border2, CSprite* border3, CSprite* border4)
@@ -73,7 +70,7 @@ void CMain::GameLoop(void)
 	while (!quit && csdl_setup->GetMainEvent()->type != SDL_QUIT)
 	{
 		csdl_setup->Begin();
-		SDL_GetMouseState(&MouseX,&MouseY);
+		SDL_GetMouseState(MouseX,MouseY);
 
 
 		for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
@@ -82,55 +79,9 @@ void CMain::GameLoop(void)
 			(*it)->update();
 
 		}
-		for (std::vector<CSprite*>::iterator i = borders.begin(); i != borders.end(); ++i)
-		{
-			(*i)->Draw();
 
-		}
-		/*
-		for(std::vector<CMainCharacter*>::iterator it = gameObjects.begin(); it != gameObjects.end(); )
-		{
-			if((*it)->getHealth() == 0 || (*it)->getHealth() < 0)
-			{
-
-				delete (*it); 
-				(*it) = nullptr;
-				it = gameObjects.erase(it);
-
-
-
-			}
-			else{
-				(*it)->draw();
-				(*it)->update();
-				it++;
-
-			}
-
-		}
 		
-		*/
 		
-		for(std::vector<CEnemy*>::iterator it = gameObjects1.begin(); it != gameObjects1.end(); )
-		{
-			if((*it)->getHealth() == 0)
-			{
-
-				delete (*it);
-				(*it) = nullptr;
-				std::cout<<"raderad"<<std::endl;
-				it = gameObjects1.erase(it);
-
-
-			}
-			else{
-				(*it)->Draw();
-				(*it)->Update();
-				it++;
-
-			}
-
-		}
 
 		
 
