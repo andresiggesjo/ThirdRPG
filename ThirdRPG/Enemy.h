@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "Sprite.h"
 #include "SDL_Setup.h"
-#include "Environment.h"
+#include "EnvironmentSprite.h"
 #include "MainCharacter.h"
 #include "MovingSprite.h"
 #include <vector>
@@ -13,7 +13,7 @@ class CEnemy :
 	public CMovingSprite
 {
 public:
-	CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY, CMainCharacter* mc);
+	CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY, CMainCharacter* mc, std::vector<CSprite*> gameEntites);
 	~CEnemy(void);
 
 	void setMainchar();
@@ -23,14 +23,16 @@ public:
 	void UpdateControls();
 	void Draw();
 	bool isDead();
+	bool shouldCollideWith(CSprite* sprite);
+	bool shouldCollide();
 
 private:
 	
 
 	void UpdateAnimation();
-
+	bool shouldColl;
 	CMainCharacter* mc;
-
+	std::vector<CSprite*> gameObjects;
 	CSDL_Setup* csdl_setup;
 
 

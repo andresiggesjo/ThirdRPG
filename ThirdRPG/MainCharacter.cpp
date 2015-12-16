@@ -15,7 +15,7 @@ CMainCharacter::CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePa
 	csdl_setup = passed_SDL_Setup;
 	MouseX = passed_MouseX;
 	MouseY = passed_MouseY;
-
+	shouldColl = true;
 	health = 200;
 
 	create = true;
@@ -240,7 +240,7 @@ void CMainCharacter::fire()
 				if (bullet->GetY() != Bullet_Follow_Y)
 				{
 
-					bullet->SetY( bullet->GetY() -  ((bullet->GetY()-Bullet_Follow_Y)/bullet_distance) * 0.09f  );
+					bullet->SetY( bullet->GetY() -  ((bullet->GetY()-Bullet_Follow_Y)/bullet_distance) * 1.09f  );
 				}
 
 			}
@@ -266,7 +266,7 @@ void CMainCharacter::fire()
 				if (bullet->GetX() != Bullet_Follow_X)
 				{
 
-					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  0.09f  );
+					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  1.09f  );
 
 				}
 
@@ -294,7 +294,7 @@ void CMainCharacter::fire()
 				if (bullet->GetY() != Bullet_Follow_Y)
 				{
 
-					bullet->SetY( bullet->GetY() -  ((bullet->GetY()-Bullet_Follow_Y)/bullet_distance) *  0.09f  );
+					bullet->SetY( bullet->GetY() -  ((bullet->GetY()-Bullet_Follow_Y)/bullet_distance) *  1.09f  );
 
 				}
 
@@ -322,7 +322,7 @@ void CMainCharacter::fire()
 				if (bullet->GetX() != Bullet_Follow_X)
 				{
 
-					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  0.09f  );
+					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  1.09f  );
 
 				}
 
@@ -353,4 +353,24 @@ CMovingSprite* CMainCharacter::getBob()
 {
 
 	return this;
+}
+bool CMainCharacter::shouldCollideWith(CSprite* sprite)
+{
+
+	if(CEnemy* temp = dynamic_cast<CEnemy*>(sprite))
+	{
+		return true;
+	}
+	if(CEnvironmentSprite* temp = dynamic_cast<CEnvironmentSprite*>(sprite))
+	{
+		return true;
+	}
+
+  
+  return false;
+	
+}
+bool CMainCharacter::shouldCollide()
+{
+	return shouldColl;
 }

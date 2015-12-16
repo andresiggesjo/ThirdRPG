@@ -15,7 +15,9 @@ public:
 	void SetX(float X);
 	void SetY(float Y);
 	void SetPosition(float X, float Y);
-
+	bool shouldCollideWith(CSprite* sprite);
+	bool shouldCollide();
+	void makeCollidable();
 	float GetX();
 	float GetY();
 	
@@ -52,6 +54,6 @@ private:
 	int Amount_Frame_Y;
 
 	SDL_Renderer* renderer;
-
+	bool shouldColl;
 	CCollisionRectangle CollisionRect;
 };

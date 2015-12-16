@@ -11,16 +11,16 @@
 
 
 
-CEnemy::CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY, CMainCharacter* passed_mc)
+CEnemy::CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY, CMainCharacter* passed_mc, std::vector<CSprite*> gameEntites)
 	: CMovingSprite(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect, passed_SDL_Setup, passed_MouseX, passed_MouseY)
 {
 
 	//BEHÖVER TA IN PLAYER X OCH PLAYER Y
-
+	std::cout<<gameEntites.size()<<std::endl;
 	mc = passed_mc;
 	health = 100;
-
-
+	gameObjects = gameEntites;
+	shouldColl = true;
 	csdl_setup = passed_SDL_Setup;
 
 	SetUpAnimation(4,4);
@@ -115,11 +115,16 @@ void CEnemy::UpdateControls()
 		if (timeCheck+10 < SDL_GetTicks() && Follow)
 		{
 
-			
-			
-			
-			
 
+			for (int i = 0; i < gameObjects.size(); i++)
+			{
+				if(this->isColliding(gameObjects[i]->GetCollisionRect()))
+				{
+
+					std::cout<<"Hääy hääy häääy"<<std::endl;
+				}
+			
+			}
 
 			distance = GetDistance(GetX(), GetY(), Follow_Point_X, Follow_Point_Y);
 
@@ -183,4 +188,26 @@ bool CEnemy::isDead()
 void CEnemy::setMainchar()
 {
 	mc = nullptr;
+}
+
+bool CEnemy::shouldCollideWith(CSprite* sprite)
+{
+
+	if(CMainCharacter* temp = dynamic_cast<CMainCharacter*>(sprite))
+	{
+		return true;
+	}
+	if(CEnvironmentSprite* temp = dynamic_cast<CEnvironmentSprite*>(sprite))
+	{
+		return true;
+	}
+
+  
+  return false;
+	
+}
+
+bool CEnemy::shouldCollide()
+{
+	return shouldColl;
 }

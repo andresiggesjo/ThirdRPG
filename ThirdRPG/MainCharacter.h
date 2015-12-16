@@ -5,6 +5,7 @@
 #include "MovingSprite.h"
 #include <math.h>
 #include "MovingSprite.h"
+#include "Enemy.h"
 #include <vector>
 
 class CMainCharacter :
@@ -13,7 +14,7 @@ class CMainCharacter :
 public:
 	CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY);
 	~CMainCharacter(void);
-	
+	bool shouldCollideWith(CSprite* sprite);
 	void cleanup();
 	void updateFire();
 	void fire();

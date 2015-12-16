@@ -3,10 +3,10 @@
 #include <algorithm>
 
 #ifdef _DEBUG
-   #ifndef DBG_NEW
-      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-      #define new DBG_NEW
-   #endif
+#ifndef DBG_NEW
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define new DBG_NEW
+#endif
 #endif  // _DEBUG
 
 CMain::CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed_SDL_Setup, int* passed_Mouse_X, int* passed_Mouse_Y)
@@ -18,7 +18,7 @@ CMain::CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed
 	MouseX = passed_Mouse_X;
 	MouseY = passed_Mouse_Y;
 
-	//bob = new CMainCharacter(csdl_setup,&MouseX,&MouseY,borders);
+
 
 }
 
@@ -56,12 +56,19 @@ void CMain::addBorders(CEnvironmentSprite* border1, CEnvironmentSprite* border2,
 	gameEntities.push_back(border4);
 }
 
+std::vector<CSprite*> CMain::getObjects()
+{
+	return gameEntities;
+
+}
+
 
 
 
 
 void CMain::GameLoop(void)
 {
+
 	if(csdl_setup->GetMainEvent()->type == SDL_QUIT)
 	{
 
@@ -75,17 +82,29 @@ void CMain::GameLoop(void)
 
 		for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
 		{
+			for(std::vector<CSprite*>::iterator itz = gameEntities.begin(); itz != gameEntities.end(); itz++)
+			{
+
+
+				if((*it) != (*itz))
+				{
+					if((*it)->isColliding((*itz)->GetCollisionRect()))
+						std::cout<<"123kgb"<<std::endl;
+				}
+
+			}
+
 			(*it)->Draw();
 			(*it)->update();
 
 		}
 
-		
-		
 
-		
+
+
+
 
 		csdl_setup->End();
 	}
-	
+
 }
