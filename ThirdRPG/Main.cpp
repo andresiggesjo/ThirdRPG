@@ -46,11 +46,7 @@ void CMain::GameLoop(void)
 {
 	csdl_setup->Begin();
 	SDL_RenderClear(csdl_setup->GetRenderer());
-	for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
-	{
-		(*it)->Draw();
-		(*it)->update();
-	}
+
 	SDL_RenderPresent(csdl_setup->GetRenderer());
 	bool goOn = true;
 	while (goOn) {
@@ -76,42 +72,24 @@ void CMain::GameLoop(void)
 		SDL_RenderClear(csdl_setup->GetRenderer());
 
 
-		for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
+		for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end();)
 		{
+			if((*it)->getHealth() == 0)
+			{
+				/*
+				delete (*it); 
+				(*it) = nullptr;
+				it = gameEntities.erase(it);
+				*/
+				
+			}
 			(*it)->Draw();
 			(*it)->update();
+			it++;
 		}
 		SDL_RenderPresent(csdl_setup->GetRenderer());
 
 	} // yttre while
-
-
-
-
-	/*
-	for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
-	{
-	for(std::vector<CSprite*>::iterator itz = gameEntities.begin(); itz != gameEntities.end(); itz++)
-	{
-
-
-	if((*it) != (*itz))
-	{
-	if((*it)->isColliding((*itz)->GetCollisionRect()))
-	std::cout<<"123kgb"<<std::endl;
-	}
-
-	}
-
-	(*it)->Draw();
-	(*it)->update();
-
-	}
-
-	*/
-
-
-
 
 	csdl_setup->End();
 

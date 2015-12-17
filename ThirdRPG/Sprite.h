@@ -11,7 +11,7 @@ public:
 
 	virtual void update();
 	virtual void Draw();
-
+	virtual int getHealth(){return health; }
 	virtual void mouseDown(const SDL_Event&) {}
 	virtual void mouseUp(const SDL_Event&) {}
 	virtual void keyDown(const SDL_Event&) {}
@@ -50,7 +50,7 @@ private:
 	SDL_Texture* image;
 	SDL_Texture* CollisionImage;
 	SDL_Rect rect;
-
+	int health;
 	SDL_Rect crop;
 
 	int img_width;

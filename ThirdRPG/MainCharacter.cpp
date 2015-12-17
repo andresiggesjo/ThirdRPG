@@ -40,12 +40,7 @@ CMainCharacter::~CMainCharacter(void)
 {
 
 	delete healthbar;
-	for(int i = 0; i < borders.size(); i++)
-	{
-		std::cout<<"deleted!"<<std::endl;
-		delete borders[i];
-	}
-	borders.clear();
+
 }
 
 double CMainCharacter::GetDistance(int X1, int Y1, int X2, int Y2)
@@ -140,39 +135,7 @@ void CMainCharacter::updateControls()
 			stopAnimation = false;
 
 
-		for(std::vector<CSprite*>::iterator it = borders.begin(); it != borders.end(); it++)
-		{
-			if(this->isColliding((*it)->GetCollisionRect()))
-			{
-				if (GetX() > Follow_Point_X)
- 				{
- 					SetX(GetX() + 15);
-					setHealth(health - 5);
-					Follow_Point_X = GetX();
- 
- 				}
- 				if (GetX() < Follow_Point_X)
- 				{
- 					SetX(GetX() - 15);
-					setHealth(health - 5);
-					Follow_Point_X = GetX();
- 				}
- 
- 				if (GetY() > Follow_Point_Y)
- 				{
- 					SetY(GetY() + 15);
-					setHealth(health - 5);
-					Follow_Point_Y = GetY();
- 				}
- 				if (GetY() < Follow_Point_Y)
- 				{
- 					SetY(GetY() - 15);
-					setHealth(health - 5);
-					Follow_Point_Y = GetY();
- 				}
-				
-			}
-		}
+		
 
 
 		if (distance > 15)
@@ -197,9 +160,10 @@ void CMainCharacter::updateControls()
 
 void CMainCharacter::update()
 {
-
+	
 	updateAnimations();
 	updateControls();
+	collidingEffter();
 
 }
 
@@ -313,6 +277,7 @@ void CMainCharacter::fire()
 
 					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  0.09f  );
 
+
 				}
 
 			}
@@ -418,4 +383,86 @@ void CMainCharacter::keyDown(const SDL_Event& e)
 void CMainCharacter::setColliders(std::vector<CSprite*> passed_borders)
 {
 	borders = passed_borders;
+}
+void CMainCharacter::setCollidersEnemy(std::vector<CSprite*> passed_enemy)
+{
+	enemies = passed_enemy;
+}
+void CMainCharacter::collidingEffter()
+{
+	
+	for(std::vector<CSprite*>::iterator it = borders.begin(); it != borders.end(); it++)
+		{
+			if(this->isColliding((*it)->GetCollisionRect()))
+			{
+				if (GetX() > Follow_Point_X)
+ 				{
+ 					SetX(GetX() + 15);
+					setHealth(health - 5);
+					Follow_Point_X = GetX();
+ 
+ 				}
+ 				if (GetX() < Follow_Point_X)
+ 				{
+ 					SetX(GetX() - 15);
+					setHealth(health - 5);
+					Follow_Point_X = GetX();
+ 				}
+ 
+ 				if (GetY() > Follow_Point_Y)
+ 				{
+ 					SetY(GetY() + 15);
+					setHealth(health - 5);
+					Follow_Point_Y = GetY();
+ 				}
+ 				if (GetY() < Follow_Point_Y)
+ 				{
+ 					SetY(GetY() - 15);
+					setHealth(health - 5);
+					Follow_Point_Y = GetY();
+ 				}
+				
+			}
+		}
+		for(std::vector<CSprite*>::iterator it = enemies.begin(); it != enemies.end(); it++)
+		{
+			if(this->isColliding((*it)->GetCollisionRect()))
+			{
+				if (GetX() > Follow_Point_X)
+ 				{
+ 					(*it)->SetX((*it)->GetX() + 15);
+					setHealth(health - 5);
+				
+ 
+ 				}
+ 				if (GetX() < Follow_Point_X)
+ 				{
+ 					(*it)->SetX((*it)->GetX() - 15);
+					setHealth(health - 5);
+					
+ 				}
+ 
+ 				if (GetY() > Follow_Point_Y)
+ 				{
+ 					(*it)->SetY((*it)->GetY() + 15);
+					setHealth(health - 5);
+					
+ 				}
+ 				if (GetY() < Follow_Point_Y)
+ 				{
+ 					(*it)->SetY((*it)->GetY() - 15);
+					setHealth(health - 5);
+					
+ 				}
+				
+			}
+		}
+
+}
+void CMainCharacter::deleteBullet()
+{
+	firebullet = false;
+	create = true;
+	delete bullet;
+	
 }

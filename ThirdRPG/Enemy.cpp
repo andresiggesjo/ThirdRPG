@@ -38,8 +38,6 @@ CEnemy::CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y
 CEnemy::~CEnemy(void)
 {
 	
-
-
 }
 
 void CEnemy::Draw()
@@ -116,15 +114,16 @@ void CEnemy::UpdateControls()
 		{
 
 
-			for (int i = 0; i < gameObjects.size(); i++)
-			{
-				if(this->isColliding(gameObjects[i]->GetCollisionRect()))
-				{
-
-					std::cout<<"Hääy hääy häääy"<<std::endl;
-				}
 			
-			}
+			if(mc->getFirebullet() == true)
+ 			{
+ 				if(isColliding(mc->getBullet()->GetCollisionRect()))
+				{
+ 					health = health - 25;
+					mc->deleteBullet();
+ 				}
+ 			}
+			
 
 			distance = GetDistance(GetX(), GetY(), Follow_Point_X, Follow_Point_Y);
 
