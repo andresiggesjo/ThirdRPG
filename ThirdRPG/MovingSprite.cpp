@@ -1,16 +1,20 @@
 #include "StdAfx.h"
 #include "MovingSprite.h"
+#ifdef _DEBUG
+#ifndef DBG_NEW
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define new DBG_NEW
+#endif
+#endif  // _DEBUG
 
-
-CMovingSprite::CMovingSprite(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY)
+CMovingSprite::CMovingSprite(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup)
 		: CSprite(passed_renderer, FilePath, x, y , w, h, passed_CollisionRect)
 {
 
 	csdl_setup = passed_SDL_Setup;
-	//spelspefickt musX å musY
-	MouseX = passed_MouseX;
-	MouseY = passed_MouseY;
-	mouseFollow = false;
+	
+
+
 	//spelspeficikt(4,4)
 	SetUpAnimation(4,4);
 	SetOrgin(GetWidth()/2.0f, GetHeight());
@@ -18,9 +22,7 @@ CMovingSprite::CMovingSprite(SDL_Renderer* passed_renderer, std::string FilePath
 
 	timeCheck = SDL_GetTicks();
 	Follow = false;
-
 	distance = 0;
-
 	stopAnimation = false;
 }
 
@@ -30,12 +32,6 @@ CMovingSprite::~CMovingSprite(void)
 {
 }
 
-
-void CMovingSprite::setMouseFollow(bool cond)
-{
-	mouseFollow = cond;
-
-}
 
 void CMovingSprite::update()
 {
@@ -88,11 +84,6 @@ void CMovingSprite::updateAnimations()
 
 }
 
-void CMovingSprite::move()
-{
-
-
-}
 
 
 double CMovingSprite::GetDistance(int X1, int Y1, int X2, int Y2)
@@ -103,7 +94,7 @@ double CMovingSprite::GetDistance(int X1, int Y1, int X2, int Y2)
 	return distance;
 }
 
-CMovingSprite* CMovingSprite::getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY)
+CMovingSprite* CMovingSprite::getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup)
 {
-		return new CMovingSprite(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect,passed_SDL_Setup,passed_MouseX,passed_MouseY);
+		return new CMovingSprite(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect,passed_SDL_Setup);
 }

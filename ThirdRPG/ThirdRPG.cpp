@@ -27,11 +27,11 @@ int main(int argc, char *argv[])
 	const int ScreenWidth = 1080;
 
 	CSDL_Setup* csdl_setup = new CSDL_Setup(false, ScreenWidth, ScreenHeight);
-	CMain* cmain = new CMain(ScreenWidth,ScreenHeight,csdl_setup,&MouseX, &MouseY);
+	CMain* cmain = new CMain(ScreenWidth,ScreenHeight,csdl_setup);
 
 	//game enteties   spelare och enemies
-	CMainCharacter* bobnumerodos = CMainCharacter::getInstance(csdl_setup->GetRenderer(),"data/mainchar.png",300,250,100,120, CCollisionRectangle(30,20,50,90), csdl_setup, &MouseX, &MouseY);
-	CEnemy* enemynumerouno = CEnemy::getInstance(csdl_setup->GetRenderer(),"data/enemy.png",500,400,100,100, CCollisionRectangle(25,0,50,100), csdl_setup, &MouseX, &MouseY, bobnumerodos);
+	CMainCharacter* bobnumerodos = CMainCharacter::getInstance(csdl_setup->GetRenderer(),"data/mainchar.png",300,250,100,120, CCollisionRectangle(30,20,50,90), csdl_setup);
+	CEnemy* enemynumerouno = CEnemy::getInstance(csdl_setup->GetRenderer(),"data/enemy.png",500,400,100,100, CCollisionRectangle(25,0,50,100), csdl_setup, bobnumerodos);
 
 
 	//Environment skit

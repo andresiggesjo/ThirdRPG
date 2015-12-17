@@ -9,14 +9,13 @@
 #endif
 #endif  // _DEBUG
 
-CMain::CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed_SDL_Setup, int* passed_Mouse_X, int* passed_Mouse_Y)
+CMain::CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed_SDL_Setup)
 {
 	ScreenWidth = passed_ScreenWidth;
 	ScreenHeight = passed_ScreenHeight;
 	quit = false;	
 	csdl_setup = passed_SDL_Setup;
-	MouseX = passed_Mouse_X;
-	MouseY = passed_Mouse_Y;
+
 
 
 
@@ -29,10 +28,7 @@ CMain::~CMain(void)
 
 
 }
-void CMain::addMouseMovement(CMovingSprite* objtocontrol)
-{
-	objtocontrol->setMouseFollow(true);
-}
+
 
 void CMain::add(CSprite* comp)
 {
@@ -77,6 +73,7 @@ void CMain::GameLoop(void)
 			if((*it)->getHealth() == 0)
 			{
 				(*it)->resetCollisionRect();
+
 				/*
 				delete (*it); 
 				(*it) = nullptr;

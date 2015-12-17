@@ -7,15 +7,14 @@
 #endif
 #endif  // _DEBUG
 
-CMainCharacter::CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY)
-	:  CMovingSprite(passed_renderer, FilePath, x, y , w, h, passed_CollisionRect, passed_SDL_Setup, passed_MouseX, passed_MouseY)
+CMainCharacter::CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup)
+	:  CMovingSprite(passed_renderer, FilePath, x, y , w, h, passed_CollisionRect, passed_SDL_Setup)
 
 
 {
 	csdl_setup = passed_SDL_Setup;
-	MouseX = passed_MouseX;
-	MouseY = passed_MouseY;
-	shouldColl = true;
+
+
 	health = 200;
 
 	create = true;
@@ -308,22 +307,11 @@ CMovingSprite* CMainCharacter::getBob()
 
 	return this;
 }
-bool CMainCharacter::shouldCollideWith(CSprite* sprite)
+
+
+CMainCharacter* CMainCharacter::getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup)
 {
-
-
-
-	return false;
-
-}
-bool CMainCharacter::shouldCollide()
-{
-	return shouldColl;
-}
-
-CMainCharacter* CMainCharacter::getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY)
-{
-	return new CMainCharacter(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect,passed_SDL_Setup,passed_MouseX,passed_MouseY);
+	return new CMainCharacter(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect,passed_SDL_Setup);
 }
 void CMainCharacter::mouseDown(const SDL_Event& e)
 {

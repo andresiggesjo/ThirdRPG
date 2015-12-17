@@ -10,41 +10,47 @@ class CMainCharacter :
 	public CMovingSprite
 {
 public:
-	CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY);
+	CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup);
 	~CMainCharacter(void);
 
 
-	static CMainCharacter* getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY);
+	static CMainCharacter* getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup);
 
 	void deleteBullet();
+
 	void keyDown(const SDL_Event&);
 	void mouseDown(const SDL_Event&);
+
 	void setColliders(std::vector<CSprite*> passed_borders);
 	void setCollidersEnemy(std::vector<CSprite*> passed_enemies);
-	bool shouldCollideWith(CSprite* sprite);
-	bool shouldCollide();
-	void cleanup();
+
+
 	void updateFire();
 	void fire();
+
 	void updateControls();
 	void updateAnimations();
 	void update();
+
 	void Draw();
+
 	int getHealth(){ return health; }
 	void setHealth(int passed_health){ health = passed_health; }
+
 	CMovingSprite* getBob();
+
 	void collidingEffter();
 	CSprite* getBullet();
 	CSprite* getHealthbar();
+
 	bool getFirebullet();
 
 	double GetDistance(int X1, int Y1, int X2, int Y2);
 
 
 private:
-	bool shouldColl;
-	int *MouseX;
-	int *MouseY;
+
+
 	float anglez;
 	int health;
 	int mana;

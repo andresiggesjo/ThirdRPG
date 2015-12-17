@@ -11,16 +11,15 @@
 
 
 
-CEnemy::CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY, CMainCharacter* passed_mc)
-	: CMovingSprite(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect, passed_SDL_Setup, passed_MouseX, passed_MouseY)
+CEnemy::CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, CMainCharacter* passed_mc)
+	: CMovingSprite(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect, passed_SDL_Setup)
 {
 
-	//BEHÖVER TA IN PLAYER X OCH PLAYER Y
 
 	mc = passed_mc;
 	health = 100;
 
-	shouldColl = true;
+
 	csdl_setup = passed_SDL_Setup;
 
 	SetUpAnimation(4,4);
@@ -53,9 +52,6 @@ void CEnemy::Draw()
 }
 void CEnemy::UpdateAnimation()
 {
-	//rita animationer beroende på movement som beror på spelarens x y
-	//ta reda på spelarens x, y och följ efter spelaren 
-
 
 
 	float angle = atan2(Follow_Point_Y - GetY(), Follow_Point_X - GetX());
@@ -184,34 +180,12 @@ bool CEnemy::isDead()
 	}
 	
 }
-void CEnemy::setMainchar()
+
+
+
+
+
+CEnemy* CEnemy::getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, CMainCharacter* mc)
 {
-	mc = nullptr;
-}
-
-bool CEnemy::shouldCollideWith(CSprite* sprite)
-{
-
-	if(CMainCharacter* temp = dynamic_cast<CMainCharacter*>(sprite))
-	{
-		return true;
-	}
-	if(CEnvironmentSprite* temp = dynamic_cast<CEnvironmentSprite*>(sprite))
-	{
-		return true;
-	}
-
-  
-  return false;
-	
-}
-
-bool CEnemy::shouldCollide()
-{
-	return shouldColl;
-}
-
-CEnemy* CEnemy::getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY, CMainCharacter* mc)
-{
-		return new CEnemy(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect,passed_SDL_Setup,passed_MouseX,passed_MouseY, mc);
+		return new CEnemy(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect,passed_SDL_Setup, mc);
 }

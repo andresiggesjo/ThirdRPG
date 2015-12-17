@@ -5,7 +5,7 @@ class CMovingSprite :
 	public CSprite
 {
 public:
-	CMovingSprite(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY);
+	CMovingSprite(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup);
 	
 	~CMovingSprite(void);
 
@@ -14,14 +14,15 @@ public:
 	void keyDown(const SDL_Event&) {}
 	void keyUp(const SDL_Event&) {}
 
-	static CMovingSprite* getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY);
+	static CMovingSprite* getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup);
+
 	double GetDistance(int X1, int Y1, int X2, int Y2);
 	void updateAnimations();
 
 	void update();
 
 
-	void setMouseFollow(bool cond);
+
 	void move();
 
 
@@ -29,9 +30,8 @@ public:
 
 
 private:
-	bool mouseFollow;
-	int *MouseX;
-	int *MouseY;
+	
+
 	CSDL_Setup* csdl_setup;
 
 	int timeCheck;

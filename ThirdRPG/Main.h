@@ -12,7 +12,7 @@
 class CMain
 {
 public:
-	CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed_SDL_Setup, int* passed_MouseX, int* passed_MouseY);
+	CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed_SDL_Setup);
 	~CMain(void);
 
 
