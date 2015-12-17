@@ -10,7 +10,7 @@ public:
 	~CEnvironmentSprite(void);
 
 	static CEnvironmentSprite* getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect);
-	bool shouldCollideWith(CSprite* sprite);
+	
 	
 
 private:

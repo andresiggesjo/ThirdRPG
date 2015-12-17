@@ -76,6 +76,7 @@ void CMain::GameLoop(void)
 		{
 			if((*it)->getHealth() == 0)
 			{
+				(*it)->resetCollisionRect();
 				/*
 				delete (*it); 
 				(*it) = nullptr;

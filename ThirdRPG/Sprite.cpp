@@ -13,7 +13,7 @@ CSprite::CSprite(SDL_Renderer* passed_renderer, std::string FilePath, int x, int
 	renderer = passed_renderer;
 	image = NULL;
 	image = IMG_LoadTexture(renderer,FilePath.c_str());
-	shouldColl = false;
+
 	if (image == NULL)
 	{
 		std::cout << "Couldn't Load " << FilePath.c_str() << std::endl;
@@ -164,16 +164,9 @@ void CSprite::update()
 {
 
 }
-bool CSprite::shouldCollideWith(CSprite* sprite)
+void CSprite::resetCollisionRect()
 {
-	return false;
-}
-bool CSprite::shouldCollide()
-{
-	return shouldColl;
-}
+	
+	CollisionRect.SetRectangle(0,0,0,0);
 
-void CSprite::makeCollidable()
-{
-	shouldColl = true;
 }
