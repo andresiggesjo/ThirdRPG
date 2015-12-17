@@ -211,3 +211,8 @@ bool CEnemy::shouldCollide()
 {
 	return shouldColl;
 }
+
+CEnemy* CEnemy::getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY, CMainCharacter* mc)
+{
+		return new CEnemy(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect,passed_SDL_Setup,passed_MouseX,passed_MouseY, mc);
+}

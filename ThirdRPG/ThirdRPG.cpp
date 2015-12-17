@@ -25,23 +25,23 @@ int main(int argc, char *argv[])
 	CMain* cmain = new CMain(ScreenWidth,ScreenHeight,csdl_setup,&MouseX, &MouseY);
 
 	//game enteties   spelare och enemies
-	CMainCharacter* bobnumerouno = new CMainCharacter(csdl_setup->GetRenderer(),"data/mainchar.png",300,250,100,120, CCollisionRectangle(30,20,50,90), csdl_setup, &MouseX, &MouseY);
+	CMainCharacter* bobnumerodos = CMainCharacter::getInstance(csdl_setup->GetRenderer(),"data/mainchar.png",300,250,100,120, CCollisionRectangle(30,20,50,90), csdl_setup, &MouseX, &MouseY);
 	
 
 
 	//Environment skit
-	CEnvironmentSprite* grass = new CEnvironmentSprite(csdl_setup->GetRenderer(),"data/grass.bmp", 0, 0, 1080, 720, CCollisionRectangle(0, 0, 0, 0));
-	CEnvironmentSprite* border1 = new CEnvironmentSprite(csdl_setup->GetRenderer(),"data/Thorn.png", 0, 0,  75, ScreenHeight, CCollisionRectangle(0, 0, 75, ScreenHeight));
-	CEnvironmentSprite* border2 = new CEnvironmentSprite(csdl_setup->GetRenderer(),"data/Thorn.png", 0, 0,  ScreenWidth, 75, CCollisionRectangle(0, 0, ScreenWidth, 75));
-	CEnvironmentSprite* border3 = new CEnvironmentSprite(csdl_setup->GetRenderer(),"data/Thorn.png", ScreenWidth-75, 0,  75, ScreenHeight, CCollisionRectangle(0, 0, 75, ScreenHeight));
-	CEnvironmentSprite* border4 = new CEnvironmentSprite(csdl_setup->GetRenderer(),"data/Thorn.png", 0, ScreenHeight-75,  ScreenWidth, 75, CCollisionRectangle(0, 0, ScreenWidth, 75));
+	CEnvironmentSprite* grass =  CEnvironmentSprite::getInstance(csdl_setup->GetRenderer(),"data/grass.bmp", 0, 0, 1080, 720, CCollisionRectangle(0, 0, 0, 0));
+	CEnvironmentSprite* border1 = CEnvironmentSprite::getInstance(csdl_setup->GetRenderer(),"data/Thorn.png", 0, 0,  75, ScreenHeight, CCollisionRectangle(0, 0, 75, ScreenHeight));
+	CEnvironmentSprite* border2 = CEnvironmentSprite::getInstance(csdl_setup->GetRenderer(),"data/Thorn.png", 0, 0,  ScreenWidth, 75, CCollisionRectangle(0, 0, ScreenWidth, 75));
+	CEnvironmentSprite* border3 = CEnvironmentSprite::getInstance(csdl_setup->GetRenderer(),"data/Thorn.png", ScreenWidth-75, 0,  75, ScreenHeight, CCollisionRectangle(0, 0, 75, ScreenHeight));
+	CEnvironmentSprite* border4 = CEnvironmentSprite::getInstance(csdl_setup->GetRenderer(),"data/Thorn.png", 0, ScreenHeight-75,  ScreenWidth, 75, CCollisionRectangle(0, 0, ScreenWidth, 75));
 
 	//lägg till allt i spelmotorn
 	cmain->addBackground(grass);
 	cmain->addBorders(border1, border2, border3, border4);
-	cmain->addPlayer(bobnumerouno);
+	cmain->addPlayer(bobnumerodos);
 	
-	CEnemy* enemynumerouno = new CEnemy(csdl_setup->GetRenderer(),"data/enemy.png",500,400,100,100, CCollisionRectangle(25,0,50,100), csdl_setup, &MouseX, &MouseY, bobnumerouno);
+	CEnemy* enemynumerouno = CEnemy::getInstance(csdl_setup->GetRenderer(),"data/enemy.png",500,400,100,100, CCollisionRectangle(25,0,50,100), csdl_setup, &MouseX, &MouseY, bobnumerodos);
 	cmain->addPlayer(enemynumerouno);
 	//kör spelmotorns händelseloop
 	cmain->GameLoop();
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
 	// delete ALLLLT amana
 	delete cmain;
-	delete bobnumerouno;
+	delete bobnumerodos;
 	delete grass;
 	delete border1;
 	delete border2;

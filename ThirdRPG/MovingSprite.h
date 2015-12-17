@@ -10,7 +10,7 @@ public:
 	~CMovingSprite(void);
 
 
-
+	static CMovingSprite* getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY);
 	double GetDistance(int X1, int Y1, int X2, int Y2);
 	void updateAnimations();
 

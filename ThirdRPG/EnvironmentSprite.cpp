@@ -28,3 +28,7 @@ bool CEnvironmentSprite::shouldCollideWith(CSprite* sprite)
   return false;
 	
 }
+
+CEnvironmentSprite* CEnvironmentSprite::getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect) {
+		return new CEnvironmentSprite(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect);
+	}

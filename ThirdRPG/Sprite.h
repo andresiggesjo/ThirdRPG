@@ -1,7 +1,6 @@
 #pragma once
 #include "stdafx.h"
 #include "CollisionRectangle.h"
-
 class CSprite
 {
 public:
@@ -9,8 +8,12 @@ public:
 	~CSprite(void);
 	CSprite();
 
+	virtual void update();
 	virtual void Draw();
-
+	virtual void mouseDown(const SDL_Event&) {}
+	virtual void mouseUp(const SDL_Event&) {}
+	virtual void keyDown(const SDL_Event&) {}
+	virtual void keyUp(const SDL_Event&) {}
 	CCollisionRectangle GetCollisionRect() { return CollisionRect; }
 	void SetX(float X);
 	void SetY(float Y);
@@ -26,7 +29,7 @@ public:
 	int GetWidth();
 	int GetHeight();
 
-	virtual void update();
+
 	void SetOrgin(float X, float Y);
 	void PlayAnimation(int BeginFrame, int EndFrame, int Row, float Speed);
 	void SetUpAnimation(int passed_Amount_X, int passed_Amount_Y);
@@ -56,4 +59,9 @@ private:
 	SDL_Renderer* renderer;
 	bool shouldColl;
 	CCollisionRectangle CollisionRect;
+
+	//för värdesemantik
+	//CSprite(const CSprite&) = delete;
+	//const CSprite& operator=(const CSprite&) = delete;
 };
+
