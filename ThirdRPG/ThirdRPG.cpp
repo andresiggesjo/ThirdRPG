@@ -37,12 +37,15 @@ int main(int argc, char *argv[])
 	CEnvironmentSprite* border4 = CEnvironmentSprite::getInstance(csdl_setup->GetRenderer(),"data/Thorn.png", 0, ScreenHeight-75,  ScreenWidth, 75, CCollisionRectangle(0, 0, ScreenWidth, 75));
 
 	//lägg till allt i spelmotorn
-	cmain->addBackground(grass);
-	cmain->addBorders(border1, border2, border3, border4);
-	cmain->addPlayer(bobnumerodos);
+	cmain->add(grass);
+	cmain->add(border1);
+	cmain->add(border2);
+	cmain->add(border3);
+	cmain->add(border4);
+	cmain->add(bobnumerodos);
 	
 	CEnemy* enemynumerouno = CEnemy::getInstance(csdl_setup->GetRenderer(),"data/enemy.png",500,400,100,100, CCollisionRectangle(25,0,50,100), csdl_setup, &MouseX, &MouseY, bobnumerodos);
-	cmain->addPlayer(enemynumerouno);
+	cmain->add(enemynumerouno);
 	//kör spelmotorns händelseloop
 	cmain->GameLoop();
 

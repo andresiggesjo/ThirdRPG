@@ -33,35 +33,11 @@ void CMain::addMouseMovement(CMovingSprite* objtocontrol)
 {
 	objtocontrol->setMouseFollow(true);
 }
-void CMain::addBackground(CEnvironmentSprite* background)
+
+void CMain::add(CSprite* comp)
 {
-
-	gameEntities.push_back(background);
+	gameEntities.push_back(comp);
 }
-void CMain::addPlayer(CMovingSprite* player)
-{
-	gameEntities.push_back(player);
-}
-
-void CMain::addEnemy(CEnemy* enemy)
-{
-	//gameEntities.push_back(enemy);
-
-}
-void CMain::addBorders(CEnvironmentSprite* border1, CEnvironmentSprite* border2, CEnvironmentSprite* border3, CEnvironmentSprite* border4)
-{
-	gameEntities.push_back(border1);
-	gameEntities.push_back(border2);
-	gameEntities.push_back(border3);
-	gameEntities.push_back(border4);
-}
-
-std::vector<CSprite*> CMain::getObjects()
-{
-	return gameEntities;
-
-}
-
 
 
 
