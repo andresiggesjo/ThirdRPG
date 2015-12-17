@@ -16,6 +16,10 @@ public:
 
 	static CMainCharacter* getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY);
 
+
+	void keyDown(const SDL_Event&);
+	void mouseDown(const SDL_Event&);
+	void setColliders(std::vector<CSprite*> passed_borders);
 	bool shouldCollideWith(CSprite* sprite);
 	bool shouldCollide();
 	void cleanup();
@@ -45,7 +49,7 @@ private:
 
 	CSDL_Setup* csdl_setup;
 
-
+	std::vector<CSprite*> borders;
 	CSprite* healthbar;
 	CSprite* bullet;
 

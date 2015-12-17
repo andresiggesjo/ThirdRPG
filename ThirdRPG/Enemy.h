@@ -21,6 +21,7 @@ public:
 	void setMainchar();
 	double GetDistance(int X1, int Y1, int X2, int Y2);
 	int getHealth(){ return health;}
+	int setHealth(int passed_health){ health = passed_health; }
 	void update();
 	void UpdateControls();
 	void Draw();

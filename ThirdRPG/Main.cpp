@@ -44,43 +44,76 @@ void CMain::add(CSprite* comp)
 
 void CMain::GameLoop(void)
 {
-
-	if(csdl_setup->GetMainEvent()->type == SDL_QUIT)
+	csdl_setup->Begin();
+	SDL_RenderClear(csdl_setup->GetRenderer());
+	for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
 	{
-
+		(*it)->Draw();
+		(*it)->update();
 	}
+	SDL_RenderPresent(csdl_setup->GetRenderer());
+	bool goOn = true;
+	while (goOn) {
+		SDL_Event eve;
+		while (SDL_PollEvent(&eve)) {
+			switch (eve.type) {
+			case SDL_QUIT: goOn = false; break;
+			case SDL_MOUSEBUTTONDOWN:
+				for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
+					(*it)->mouseDown(eve);
+				break;
+			case SDL_MOUSEMOTION:
+				for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
+					(*it)->mouseDown(eve);
+				break;
+			case SDL_KEYDOWN:
+				for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
+					(*it)->keyDown(eve);
+				break;
+			} // switch
+		} // inre while
 
-	while (!quit && csdl_setup->GetMainEvent()->type != SDL_QUIT)
-	{
-		csdl_setup->Begin();
-		SDL_GetMouseState(MouseX,MouseY);
+		SDL_RenderClear(csdl_setup->GetRenderer());
 
 
 		for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
 		{
-			for(std::vector<CSprite*>::iterator itz = gameEntities.begin(); itz != gameEntities.end(); itz++)
-			{
-
-
-				if((*it) != (*itz))
-				{
-					if((*it)->isColliding((*itz)->GetCollisionRect()))
-						std::cout<<"123kgb"<<std::endl;
-				}
-
-			}
-
 			(*it)->Draw();
 			(*it)->update();
-
 		}
+		SDL_RenderPresent(csdl_setup->GetRenderer());
+
+	} // yttre while
 
 
 
 
+	/*
+	for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end(); it++)
+	{
+	for(std::vector<CSprite*>::iterator itz = gameEntities.begin(); itz != gameEntities.end(); itz++)
+	{
 
 
-		csdl_setup->End();
+	if((*it) != (*itz))
+	{
+	if((*it)->isColliding((*itz)->GetCollisionRect()))
+	std::cout<<"123kgb"<<std::endl;
 	}
+
+	}
+
+	(*it)->Draw();
+	(*it)->update();
+
+	}
+
+	*/
+
+
+
+
+	csdl_setup->End();
+
 
 }

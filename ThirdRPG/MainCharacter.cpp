@@ -1,16 +1,16 @@
 #include "StdAfx.h"
 #include "MainCharacter.h"
 #ifdef _DEBUG
-   #ifndef DBG_NEW
-      #define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
-      #define new DBG_NEW
-   #endif
+#ifndef DBG_NEW
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define new DBG_NEW
+#endif
 #endif  // _DEBUG
 
 CMainCharacter::CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY)
 	:  CMovingSprite(passed_renderer, FilePath, x, y , w, h, passed_CollisionRect, passed_SDL_Setup, passed_MouseX, passed_MouseY)
 
-	
+
 {
 	csdl_setup = passed_SDL_Setup;
 	MouseX = passed_MouseX;
@@ -39,9 +39,13 @@ CMainCharacter::CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePa
 CMainCharacter::~CMainCharacter(void)
 {
 
-
 	delete healthbar;
-
+	for(int i = 0; i < borders.size(); i++)
+	{
+		std::cout<<"deleted!"<<std::endl;
+		delete borders[i];
+	}
+	borders.clear();
 }
 
 double CMainCharacter::GetDistance(int X1, int Y1, int X2, int Y2)
@@ -123,16 +127,7 @@ void CMainCharacter::updateControls()
 {
 
 
-	if (csdl_setup->GetMainEvent()->type == SDL_MOUSEBUTTONDOWN || csdl_setup->GetMainEvent()->type == SDL_MOUSEMOTION)
-	{
-		if (csdl_setup->GetMainEvent()->button.button == SDL_BUTTON_LEFT)
-		{
-			Follow_Point_X = *MouseX;
-			Follow_Point_Y = *MouseY;
 
-			Follow = true;
-		}
-	}
 
 	if (timeCheck+10 < SDL_GetTicks() && Follow)
 	{
@@ -144,9 +139,41 @@ void CMainCharacter::updateControls()
 		else
 			stopAnimation = false;
 
-		
-		
-		
+
+		for(std::vector<CSprite*>::iterator it = borders.begin(); it != borders.end(); it++)
+		{
+			if(this->isColliding((*it)->GetCollisionRect()))
+			{
+				if (GetX() > Follow_Point_X)
+ 				{
+ 					SetX(GetX() + 15);
+					setHealth(health - 5);
+					Follow_Point_X = GetX();
+ 
+ 				}
+ 				if (GetX() < Follow_Point_X)
+ 				{
+ 					SetX(GetX() - 15);
+					setHealth(health - 5);
+					Follow_Point_X = GetX();
+ 				}
+ 
+ 				if (GetY() > Follow_Point_Y)
+ 				{
+ 					SetY(GetY() + 15);
+					setHealth(health - 5);
+					Follow_Point_Y = GetY();
+ 				}
+ 				if (GetY() < Follow_Point_Y)
+ 				{
+ 					SetY(GetY() - 15);
+					setHealth(health - 5);
+					Follow_Point_Y = GetY();
+ 				}
+				
+			}
+		}
+
 
 		if (distance > 15)
 		{
@@ -183,44 +210,6 @@ CSprite* CMainCharacter::getHealthbar()
 void CMainCharacter::fire()
 {
 
-	if (csdl_setup->GetMainEvent()->type == SDL_KEYDOWN)
-	{ 
-
-		
-		if (csdl_setup->GetMainEvent()->key.keysym.sym)
-		{
-			if (SDLK_SPACE)
-			{
-				switch (csdl_setup->GetMainEvent()->key.keysym.sym)
-				{
-				case SDLK_SPACE:
-				
-					if(create)
-					{
-					bullet = new CSprite(csdl_setup->GetRenderer(), "data/fireball_1.png", GetX(),GetY(),100,120, CCollisionRectangle(0,50,75,75)); 
-					bullet->SetUpAnimation(8,8);
-					bullet->SetOrgin(bullet->GetWidth()/2.0f, bullet->GetHeight());
-					firebullet = true;
-
-					bobcurrentx = GetX();
-					bobcurrenty = GetY();
-					anglez = atan2(Follow_Point_Y - GetY(), Follow_Point_X - GetX());
-					anglez = (anglez * (180/3.14)) + 180;
-					create = false;
-					}
-					
-					break;
-
-				default:
-					break;
-				}
-
-
-			}
-
-		}
-		//}
-	}
 
 
 	if(firebullet)
@@ -240,7 +229,7 @@ void CMainCharacter::fire()
 				if (bullet->GetY() != Bullet_Follow_Y)
 				{
 
-					bullet->SetY( bullet->GetY() -  ((bullet->GetY()-Bullet_Follow_Y)/bullet_distance) * 1.09f  );
+					bullet->SetY( bullet->GetY() -  ((bullet->GetY()-Bullet_Follow_Y)/bullet_distance) * 0.09f  );
 				}
 
 			}
@@ -251,7 +240,7 @@ void CMainCharacter::fire()
 				create = true;
 			}
 
-			
+
 		}
 		else if (anglez > 135 && anglez <= 225)
 		{
@@ -266,7 +255,7 @@ void CMainCharacter::fire()
 				if (bullet->GetX() != Bullet_Follow_X)
 				{
 
-					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  1.09f  );
+					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  0.09f  );
 
 				}
 
@@ -294,7 +283,7 @@ void CMainCharacter::fire()
 				if (bullet->GetY() != Bullet_Follow_Y)
 				{
 
-					bullet->SetY( bullet->GetY() -  ((bullet->GetY()-Bullet_Follow_Y)/bullet_distance) *  1.09f  );
+					bullet->SetY( bullet->GetY() -  ((bullet->GetY()-Bullet_Follow_Y)/bullet_distance) *  0.09f  );
 
 				}
 
@@ -322,7 +311,7 @@ void CMainCharacter::fire()
 				if (bullet->GetX() != Bullet_Follow_X)
 				{
 
-					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  1.09f  );
+					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  0.09f  );
 
 				}
 
@@ -358,9 +347,9 @@ bool CMainCharacter::shouldCollideWith(CSprite* sprite)
 {
 
 
-  
-  return false;
-	
+
+	return false;
+
 }
 bool CMainCharacter::shouldCollide()
 {
@@ -369,5 +358,64 @@ bool CMainCharacter::shouldCollide()
 
 CMainCharacter* CMainCharacter::getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, int *passed_MouseX, int *passed_MouseY)
 {
-		return new CMainCharacter(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect,passed_SDL_Setup,passed_MouseX,passed_MouseY);
+	return new CMainCharacter(passed_renderer, FilePath, x, y, w, h, passed_CollisionRect,passed_SDL_Setup,passed_MouseX,passed_MouseY);
+}
+void CMainCharacter::mouseDown(const SDL_Event& e)
+{
+
+	if (e.button.button == SDL_BUTTON_LEFT)
+	{
+		Follow_Point_X = e.button.x;
+		Follow_Point_Y = e.button.y;
+
+		Follow = true;
+	}
+
+
+}
+void CMainCharacter::keyDown(const SDL_Event& e)
+{
+
+
+
+
+	if (e.key.keysym.sym)
+	{
+		if (SDLK_SPACE)
+		{
+			switch (e.key.keysym.sym)
+			{
+			case SDLK_SPACE:
+
+				if(create)
+				{
+					bullet = new CSprite(csdl_setup->GetRenderer(), "data/fireball_1.png", GetX(),GetY(),100,120, CCollisionRectangle(0,50,75,75)); 
+					bullet->SetUpAnimation(8,8);
+					bullet->SetOrgin(bullet->GetWidth()/2.0f, bullet->GetHeight());
+					firebullet = true;
+
+					bobcurrentx = GetX();
+					bobcurrenty = GetY();
+					anglez = atan2(Follow_Point_Y - GetY(), Follow_Point_X - GetX());
+					anglez = (anglez * (180/3.14)) + 180;
+					create = false;
+				}
+
+				break;
+
+			default:
+				break;
+			}
+
+
+		}
+
+	}
+
+
+}
+
+void CMainCharacter::setColliders(std::vector<CSprite*> passed_borders)
+{
+	borders = passed_borders;
 }
