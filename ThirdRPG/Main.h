@@ -17,33 +17,17 @@ public:
 
 
 	void add(CSprite* comp);
-	void GameLoop();
-	void addMouseMovement(CMovingSprite* objtocontrol);
-	void addPlayer(CMovingSprite* player);
-	void addEnemy(CEnemy* enemy);
-	void addBorders(CEnvironmentSprite* border1, CEnvironmentSprite* border2, CEnvironmentSprite* border3, CEnvironmentSprite* border4);
-	void addBackground(CEnvironmentSprite* background);
-	void cleanup();
-	int getMouseX(){ return *MouseX; }
-	int getMouseY(){ return *MouseY; }
-	std::vector<CSprite*> getObjects();
+	void gameLoop();
+
+
 
 private:
-	int ScreenWidth;
-	int ScreenHeight;
 
-
+	int screenWidth;
+	int screenHeight;
 	bool quit;
-
-
 	std::vector<CSprite*> gameEntities;
-
-	
 	CSDL_Setup* csdl_setup;
-
-	int *MouseX;
-	int *MouseY;
-	
 
 
 };

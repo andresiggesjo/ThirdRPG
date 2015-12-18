@@ -11,8 +11,8 @@
 
 CMain::CMain(int passed_ScreenWidth, int passed_ScreenHeight, CSDL_Setup* passed_SDL_Setup)
 {
-	ScreenWidth = passed_ScreenWidth;
-	ScreenHeight = passed_ScreenHeight;
+	screenWidth = passed_ScreenWidth;
+	screenHeight = passed_ScreenHeight;
 	quit = false;	
 	csdl_setup = passed_SDL_Setup;
 
@@ -38,12 +38,12 @@ void CMain::add(CSprite* comp)
 
 
 
-void CMain::GameLoop(void)
+void CMain::gameLoop(void)
 {
-	csdl_setup->Begin();
-	SDL_RenderClear(csdl_setup->GetRenderer());
+	csdl_setup->begin();
+	SDL_RenderClear(csdl_setup->getRenderer());
 
-	SDL_RenderPresent(csdl_setup->GetRenderer());
+	SDL_RenderPresent(csdl_setup->getRenderer());
 	bool goOn = true;
 	while (goOn) {
 		SDL_Event eve;
@@ -65,7 +65,7 @@ void CMain::GameLoop(void)
 			} // switch
 		} // inre while
 
-		SDL_RenderClear(csdl_setup->GetRenderer());
+		SDL_RenderClear(csdl_setup->getRenderer());
 
 
 		for(std::vector<CSprite*>::iterator it = gameEntities.begin(); it != gameEntities.end();)
@@ -81,15 +81,15 @@ void CMain::GameLoop(void)
 				*/
 				
 			}
-			(*it)->Draw();
+			(*it)->draw();
 			(*it)->update();
 			it++;
 		}
-		SDL_RenderPresent(csdl_setup->GetRenderer());
+		SDL_RenderPresent(csdl_setup->getRenderer());
 
 	} // yttre while
 
-	csdl_setup->End();
+	csdl_setup->end();
 
 
 }

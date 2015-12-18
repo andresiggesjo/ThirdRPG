@@ -10,58 +10,55 @@ public:
 
 
 	virtual void update();
-	virtual void Draw();
+	virtual void draw();
 	virtual int getHealth(){return health; }
 	virtual void mouseDown(const SDL_Event&) {}
 	virtual void mouseUp(const SDL_Event&) {}
 	virtual void keyDown(const SDL_Event&) {}
 	virtual void keyUp(const SDL_Event&) {}
+
+	CCollisionRectangle getCollisionRect() { return collisionRect; }
+
+	void setX(float X);
+	void setY(float Y);
+	void setPosition(float X, float Y);
+	void setOrgin(float X, float Y);
+	void playAnimation(int beginFrame, int endFrame, int row, float speed);
+	void setUpAnimation(int passed_Amount_X, int passed_Amount_Y);
 	void resetCollisionRect();
+	void setWidth(int W);
+	void setHeight(int H);
 
-	CCollisionRectangle GetCollisionRect() { return CollisionRect; }
-	void SetX(float X);
-	void SetY(float Y);
-	void SetPosition(float X, float Y);
-
-
-	float GetX();
-	float GetY();
+	float getX();
+	float getY();
 	
-	void SetWidth(int W);
-	void SetHeight(int H);
-	int GetWidth();
-	int GetHeight();
-
-
-	void SetOrgin(float X, float Y);
-	void PlayAnimation(int BeginFrame, int EndFrame, int Row, float Speed);
-	void SetUpAnimation(int passed_Amount_X, int passed_Amount_Y);
+	int getWidth();
+	int getHeight();
 
 	bool isColliding(CCollisionRectangle theCollider);
+
 private:
-	float Orgin_X;
-	float Orgin_Y;
 
-	float X_pos;
-	float Y_pos;
+	float orgin_X;
+	float orgin_Y;
+	float x_pos;
+	float y_pos;
 
+	SDL_Renderer* renderer;
 	SDL_Texture* image;
-	SDL_Texture* CollisionImage;
+	SDL_Texture* collisionImage;
 	SDL_Rect rect;
-	int health;
 	SDL_Rect crop;
 
 	int img_width;
 	int img_height;
-	int CurrentFrame;
+	int currentFrame;
 	int animationDelay;
+	int health;
+	int amount_Frame_X;
+	int amount_Frame_Y;
 
-	int Amount_Frame_X;
-	int Amount_Frame_Y;
-
-	SDL_Renderer* renderer;
-
-	CCollisionRectangle CollisionRect;
+	CCollisionRectangle collisionRect;
 
 	//för värdesemantik
 	CSprite(const CSprite&);

@@ -9,16 +9,16 @@ public:
 	CCollisionRectangle(int x, int y, int w, int h);
 	~CCollisionRectangle(void);
 
-	void SetRectangle(int x, int y, int w, int h);
-	SDL_Rect GetRectangle() { return CollisionRect; }
+	void setRectangle(int x, int y, int w, int h);
+	SDL_Rect getRectangle() { return collisionRect; }
 
-	void SetX(int x) { CollisionRect.x = x + OffsetX; }  
-	void SetY(int y) { CollisionRect.y = y + OffsetY; }  
+	void setX(int x) { collisionRect.x = x + offsetX; }  
+	void setY(int y) { collisionRect.y = y + offsetY; }  
 
 
 private:
-	int OffsetX;
-	int OffsetY;
-	SDL_Rect CollisionRect;
+	int offsetX;
+	int offsetY;
+	SDL_Rect collisionRect;
 };
 

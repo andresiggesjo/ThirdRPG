@@ -7,12 +7,12 @@
    #endif
 #endif  // _DEBUG
 
-CSDL_Setup::CSDL_Setup(bool* quit, int ScreenWidth, int ScreenHeight)
+CSDL_Setup::CSDL_Setup(bool* quit, int screenWidth, int screenHeight)
 {
 	SDL_Init(SDL_INIT_VIDEO);
 	
 	window = NULL;
-	window = SDL_CreateWindow("Delils Darkness!", 100, 100, ScreenWidth, ScreenHeight, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Delils Darkness!", 100, 100, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
 
 	if (window == NULL)
 	{
@@ -34,23 +34,23 @@ CSDL_Setup::~CSDL_Setup(void)
 	delete mainEvent;
 }
 
-SDL_Renderer* CSDL_Setup::GetRenderer()
+SDL_Renderer* CSDL_Setup::getRenderer()
 {
 	return renderer;
 }
 
-SDL_Event* CSDL_Setup::GetMainEvent()
+SDL_Event* CSDL_Setup::getMainEvent()
 {
 	return mainEvent;
 }
 
-void CSDL_Setup::Begin()
+void CSDL_Setup::begin()
 {
 	SDL_PollEvent(mainEvent);
 	SDL_RenderClear(renderer);
 }
 
-void CSDL_Setup::End()
+void CSDL_Setup::end()
 {
 	SDL_RenderPresent(renderer);
 }

@@ -22,13 +22,13 @@ CEnemy::CEnemy(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y
 
 	csdl_setup = passed_SDL_Setup;
 
-	SetUpAnimation(4,4);
-	SetOrgin(GetWidth()/2.0f, GetHeight());
+	setUpAnimation(4,4);
+	setOrgin(getWidth()/2.0f, getHeight());
 
 
 
 	timeCheck = SDL_GetTicks();
-	Follow = false;
+	follow = false;
 	distance = 0;
 	stopAnimation = false;
 }
@@ -39,7 +39,7 @@ CEnemy::~CEnemy(void)
 	
 }
 
-void CEnemy::Draw()
+void CEnemy::draw()
 {
 	if(health == 0 || health < 0)
 	{
@@ -47,14 +47,14 @@ void CEnemy::Draw()
 	}
 	else
 	{
-	CMovingSprite::Draw();
+	CMovingSprite::draw();
 	}
 }
-void CEnemy::UpdateAnimation()
+void CEnemy::updateAnimations()
 {
 
 
-	float angle = atan2(Follow_Point_Y - GetY(), Follow_Point_X - GetX());
+	float angle = atan2(follow_Point_Y - getY(), follow_Point_X - getX());
 	angle = (angle * (180/3.14)) + 180;
 
 	if (!stopAnimation)
@@ -64,56 +64,56 @@ void CEnemy::UpdateAnimation()
 			//up
 
 			if (distance > 15)
-				PlayAnimation(0,3,3,200);
+				playAnimation(0,3,3,200);
 			else
-				PlayAnimation(1,1,3,200);
+				playAnimation(1,1,3,200);
 		}
 		else if (angle > 135 && angle <= 225)
 		{
 			//right
 			if (distance > 15)
-				PlayAnimation(0,3,2,200);
+				playAnimation(0,3,2,200);
 			else
-				PlayAnimation(1,1,2,200);
+				playAnimation(1,1,2,200);
 		}
 		else if (angle > 225 && angle <= 315)
 		{
 			//down
 			if (distance > 15)
-				PlayAnimation(0,3,0,200);
+				playAnimation(0,3,0,200);
 			else
-				PlayAnimation(1,1,0,200);
+				playAnimation(1,1,0,200);
 		}
 		else if ((angle <= 360 && angle > 315) || (angle >=0 && angle <= 45))
 		{
 			//left
 			if (distance > 20)
-				PlayAnimation(0,3,1,200);
+				playAnimation(0,3,1,200);
 			else
-				PlayAnimation(1,1,1,200);
+				playAnimation(1,1,1,200);
 		}
 	}
 
 }
 
-void CEnemy::UpdateControls()
+void CEnemy::updateControls()
 {
 
 	if(mc->getHealth() > 0)
 	{
 
-		Follow_Point_X = mc->getBob()->GetX();
-		Follow_Point_Y = mc->getBob()->GetY();
-		Follow = true;
+		follow_Point_X = mc->getBob()->getX();
+		follow_Point_Y = mc->getBob()->getY();
+		follow = true;
 
-		if (timeCheck+10 < SDL_GetTicks() && Follow)
+		if (timeCheck+10 < SDL_GetTicks() && follow)
 		{
 
 
 			
 			if(mc->getFirebullet() == true)
  			{
- 				if(isColliding(mc->getBullet()->GetCollisionRect()))
+ 				if(isColliding(mc->getBullet()->getCollisionRect()))
 				{
  					health = health - 25;
 					mc->deleteBullet();
@@ -121,7 +121,7 @@ void CEnemy::UpdateControls()
  			}
 			
 
-			distance = GetDistance(GetX(), GetY(), Follow_Point_X, Follow_Point_Y);
+			distance = getDistance(getX(), getY(), follow_Point_X, follow_Point_Y);
 
 			if (distance == 0)
 				stopAnimation = true;
@@ -131,18 +131,18 @@ void CEnemy::UpdateControls()
 
 			if (distance > 15)
 			{
-				if (GetX() != Follow_Point_X)
+				if (getX() != follow_Point_X)
 				{
-					SetX( GetX() -  ((GetX()-Follow_Point_X)/distance) * 0.5f );
+					setX( getX() -  ((getX()-follow_Point_X)/distance) * 0.5f );
 				}
 
-				if (GetY() != Follow_Point_Y)
+				if (getY() != follow_Point_Y)
 				{
-					SetY( GetY() -  ((GetY()-Follow_Point_Y)/distance) * 0.5f );
+					setY( getY() -  ((getY()-follow_Point_Y)/distance) * 0.5f );
 				}
 			}
 			else
-				Follow = false;
+				follow = false;
 
 			timeCheck = SDL_GetTicks();
 		}
@@ -153,20 +153,14 @@ void CEnemy::UpdateControls()
 
 void CEnemy::update()
 {
-	UpdateAnimation();
-	UpdateControls();
+	updateAnimations();
+	updateControls();
 }
 
 
 
 
-double CEnemy::GetDistance(int X1, int Y1, int X2, int Y2)
-{
-	double DifferenceX = X1 - X2;
-	double DifferenceY = Y1 - Y2;
-	double distance = sqrt((DifferenceX * DifferenceX) + (DifferenceY * DifferenceY));
-	return distance;
-}
+
 
 bool CEnemy::isDead()
 {

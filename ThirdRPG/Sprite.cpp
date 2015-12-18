@@ -7,9 +7,9 @@
    #endif
 #endif  // _DEBUG
 
-CSprite::CSprite(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect)
+CSprite::CSprite(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_collisionRect)
 {	
-	CollisionRect = passed_CollisionRect;
+	collisionRect = passed_collisionRect;
 	renderer = passed_renderer;
 	image = NULL;
 	image = IMG_LoadTexture(renderer,FilePath.c_str());
@@ -19,11 +19,11 @@ CSprite::CSprite(SDL_Renderer* passed_renderer, std::string FilePath, int x, int
 		std::cout << "Couldn't Load " << FilePath.c_str() << std::endl;
 	}
 
-	CollisionImage = NULL;
+	collisionImage = NULL;
  
-    CollisionImage = IMG_LoadTexture(renderer, "data/CollisionBox.png");
+    collisionImage = IMG_LoadTexture(renderer, "data/CollisionBox.png");
  
-    if (CollisionImage == NULL)
+    if (collisionImage == NULL)
     {
         std::cout << "Couldn't Load " << "CollisionImage" << std::endl;
     }
@@ -40,37 +40,37 @@ CSprite::CSprite(SDL_Renderer* passed_renderer, std::string FilePath, int x, int
 	crop.w = img_width;
 	crop.h = img_height;
 
-	X_pos = x;
-	Y_pos = y;
+	x_pos = x;
+	y_pos = y;
 
-	Orgin_X = 0;
-	Orgin_Y = 0;
+	orgin_X = 0;
+	orgin_Y = 0;
 
-	CurrentFrame = 0;
-	Amount_Frame_X = 0;
-	Amount_Frame_X = 0;
+	currentFrame = 0;
+	amount_Frame_X = 0;
+	amount_Frame_Y = 0;
 }
 
-void CSprite::SetUpAnimation(int passed_Amount_X, int passed_Amount_Y)
+void CSprite::setUpAnimation(int passed_Amount_X, int passed_Amount_Y)
 {
-	Amount_Frame_X = passed_Amount_X;
-	Amount_Frame_Y = passed_Amount_Y;
+	amount_Frame_X = passed_Amount_X;
+	amount_Frame_Y = passed_Amount_Y;
 }
 
-void CSprite::PlayAnimation(int BeginFrame, int EndFrame, int Row, float Speed)
+void CSprite::playAnimation(int beginFrame, int endFrame, int row, float speed)
 {
-	if (animationDelay+Speed < SDL_GetTicks())
+	if (animationDelay+speed < SDL_GetTicks())
 	{
 
-	if (EndFrame <= CurrentFrame)
-		CurrentFrame = BeginFrame;
+	if (endFrame <= currentFrame)
+		currentFrame = beginFrame;
 	else
-		CurrentFrame++;
+		currentFrame++;
 
-	crop.x = CurrentFrame * (img_width/Amount_Frame_X);
-	crop.y = Row * (img_height/Amount_Frame_Y);
-	crop.w = img_width/Amount_Frame_X;
-	crop.h = img_height/Amount_Frame_Y;
+	crop.x = currentFrame * (img_width/amount_Frame_X);
+	crop.y = row * (img_height/amount_Frame_Y);
+	crop.w = img_width/amount_Frame_X;
+	crop.h = img_height/amount_Frame_Y;
 
 	animationDelay = SDL_GetTicks();
 	}
@@ -81,83 +81,84 @@ CSprite::~CSprite(void)
 	SDL_DestroyTexture(image);
 }
 
-void CSprite::Draw()
+void CSprite::draw()
 {
 
-	CollisionRect.SetX(rect.x);
-    CollisionRect.SetY(rect.y);
+	collisionRect.setX(rect.x);
+    collisionRect.setY(rect.y);
 	
 	SDL_RenderCopy(renderer,image, &crop, &rect);
-	//SDL_RenderCopy(renderer,CollisionImage, NULL, &CollisionRect.GetRectangle());
+	//SDL_RenderCopy(renderer,CollisionImage, NULL, &collisionRect.GetRectangle());
 	
 }
 
 
-void CSprite::SetX(float X)
+void CSprite::setX(float X)
 {
-	X_pos = X;
+	x_pos = X;
 
-	rect.x = int(X_pos - Orgin_X);
+	rect.x = int(x_pos - orgin_X);
 }
 
-void CSprite::SetY(float Y)
+void CSprite::setY(float Y)
 {
-	Y_pos = Y;
+	y_pos = Y;
 
-	rect.y = int(Y_pos - Orgin_Y);
+	rect.y = int(y_pos - orgin_Y);
 }
 
-void CSprite::SetPosition(float X, float Y)
+void CSprite::setPosition(float X, float Y)
 {
-	X_pos = X;
-	Y_pos = Y;
+	x_pos = X;
+	y_pos = Y;
 
-	rect.x = int(X_pos - Orgin_X);
-	rect.y = int(Y_pos - Orgin_Y);
+	rect.x = int(x_pos - orgin_X);
+	rect.y = int(y_pos - orgin_Y);
 }
 
-float CSprite::GetX()
+float CSprite::getX()
 {
-	return X_pos;
+	return x_pos;
 }
 
-float CSprite::GetY()
+float CSprite::getY()
 {
-	return Y_pos;
+	return y_pos;
 }
 
-void CSprite::SetOrgin(float X, float Y)
+void CSprite::setOrgin(float X, float Y)
 {
-	Orgin_X = X;
-	Orgin_Y = Y;
+	orgin_X = X;
+	orgin_Y = Y;
 
-	SetPosition(GetX(), GetY());
+	setPosition(getX(), getY());
 
 }
 
-void CSprite::SetWidth(int W)
+void CSprite::setWidth(int W)
 {
 	rect.w = W;
 }
 
-void CSprite::SetHeight(int H)
+void CSprite::setHeight(int H)
 {
 	rect.h = H;
 }
 
-int CSprite::GetWidth()
+int CSprite::getWidth()
 {
 	return rect.w;
 }
 
-int CSprite::GetHeight()
+int CSprite::getHeight()
 {
 	return rect.h;
 }
 
 bool CSprite::isColliding(CCollisionRectangle theCollider)
 {
-    return !(CollisionRect.GetRectangle().x + CollisionRect.GetRectangle().w < theCollider.GetRectangle().x || CollisionRect.GetRectangle().y + CollisionRect.GetRectangle().h < theCollider.GetRectangle().y || CollisionRect.GetRectangle().x > theCollider.GetRectangle().x + theCollider.GetRectangle().w || CollisionRect.GetRectangle().y > theCollider.GetRectangle().y + theCollider.GetRectangle().h);
+    return !(collisionRect.getRectangle().x + collisionRect.getRectangle().w < theCollider.getRectangle().x || collisionRect.getRectangle().y + collisionRect.getRectangle().h < theCollider.getRectangle().y
+		|| collisionRect.getRectangle().x > theCollider.getRectangle().x + theCollider.getRectangle().w || collisionRect.getRectangle().y > theCollider.getRectangle().y + theCollider.getRectangle().h);
 }
 
 void CSprite::update()
@@ -167,6 +168,6 @@ void CSprite::update()
 void CSprite::resetCollisionRect()
 {
 	
-	CollisionRect.SetRectangle(0,0,0,0);
+	collisionRect.setRectangle(0,0,0,0);
 
 }

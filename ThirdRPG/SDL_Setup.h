@@ -3,14 +3,14 @@
 class CSDL_Setup
 {
 public:
-	CSDL_Setup(bool* quit, int ScreenWidth, int ScreenHeight);
+	CSDL_Setup(bool* quit, int screenWidth, int screenHeight);
 	~CSDL_Setup(void);
 
-	SDL_Renderer* GetRenderer();
-	SDL_Event* GetMainEvent();
+	SDL_Renderer* getRenderer();
+	SDL_Event* getMainEvent();
 
-	void Begin();
-	void End();
+	void begin();
+	void end();
 private:
 	
 	SDL_Window* window;

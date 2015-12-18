@@ -8,16 +8,16 @@
 
 CCollisionRectangle::CCollisionRectangle()
 {
-	OffsetX = 0;
-	OffsetY = 0;
-	SetRectangle(0,0,0,0);
+	offsetX = 0;
+	offsetY = 0;
+	setRectangle(0,0,0,0);
 }
 
 CCollisionRectangle::CCollisionRectangle(int x, int y, int w, int h)
 {
-	OffsetX = x;
-	OffsetY = y;
-	SetRectangle(0, 0, w, h);
+	offsetX = x;
+	offsetY = y;
+	setRectangle(0, 0, w, h);
 }
 
 
@@ -25,10 +25,10 @@ CCollisionRectangle::~CCollisionRectangle(void)
 {
 }
 
-void CCollisionRectangle::SetRectangle(int x, int y, int w, int h)
+void CCollisionRectangle::setRectangle(int x, int y, int w, int h)
 {
-	CollisionRect.x = x + OffsetX;
-	CollisionRect.y = y + OffsetY;
-	CollisionRect.w = w;
-	CollisionRect.h = h;
+	collisionRect.x = x + offsetX;
+	collisionRect.y = y + offsetY;
+	collisionRect.w = w;
+	collisionRect.h = h;
 }

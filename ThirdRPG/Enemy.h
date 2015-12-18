@@ -18,32 +18,37 @@ public:
 
 	static CEnemy* getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup, CMainCharacter* mc);
 
-	void setMainchar();
-	double GetDistance(int X1, int Y1, int X2, int Y2);
+
+	
 	int getHealth(){ return health;}
 	int setHealth(int passed_health){ health = passed_health; }
+
 	void update();
-	void UpdateControls();
-	void Draw();
+	void updateAnimations();
+	void updateControls();
+	void draw();
+
 	bool isDead();
 
 
 private:
 	
 
-	void UpdateAnimation();
+	
 
 	CMainCharacter* mc;
+
 	CSDL_Setup* csdl_setup;
 
 
 	int timeCheck;
 	int health;
-	bool Follow;
-	int Follow_Point_X;
-	int Follow_Point_Y;
+	int follow_Point_X;
+	int follow_Point_Y;
 
 	float distance;
+	
+	bool follow;
 	bool stopAnimation;
 };
 

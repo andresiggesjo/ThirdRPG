@@ -16,12 +16,12 @@ CMovingSprite::CMovingSprite(SDL_Renderer* passed_renderer, std::string FilePath
 
 
 	//spelspeficikt(4,4)
-	SetUpAnimation(4,4);
-	SetOrgin(GetWidth()/2.0f, GetHeight());
+	setUpAnimation(4,4);
+	setOrgin(getWidth()/2.0f, getHeight());
 
 
 	timeCheck = SDL_GetTicks();
-	Follow = false;
+	follow = false;
 	distance = 0;
 	stopAnimation = false;
 }
@@ -42,7 +42,7 @@ void CMovingSprite::update()
 void CMovingSprite::updateAnimations()
 {
 	//generell move animation
-	float angle = atan2(Follow_Point_Y - GetY(), Follow_Point_X - GetX());
+	float angle = atan2(follow_Point_Y - getY(), follow_Point_X - getX());
 	angle = (angle * (180/3.14)) + 180;
 
 	if (!stopAnimation)
@@ -52,33 +52,33 @@ void CMovingSprite::updateAnimations()
 			//up
 
 			if (distance > 15)
-				PlayAnimation(0,3,3,200);
+				playAnimation(0,3,3,200);
 			else
-				PlayAnimation(1,1,3,200);
+				playAnimation(1,1,3,200);
 		}
 		else if (angle > 135 && angle <= 225)
 		{
 			//right
 			if (distance > 15)
-				PlayAnimation(0,3,2,200);
+				playAnimation(0,3,2,200);
 			else
-				PlayAnimation(1,1,2,200);
+				playAnimation(1,1,2,200);
 		}
 		else if (angle > 225 && angle <= 315)
 		{
 			//down
 			if (distance > 15)
-				PlayAnimation(0,3,0,200);
+				playAnimation(0,3,0,200);
 			else
-				PlayAnimation(1,1,0,200);
+				playAnimation(1,1,0,200);
 		}
 		else if ((angle <= 360 && angle > 315) || (angle >=0 && angle <= 45))
 		{
 			//left
 			if (distance > 20)
-				PlayAnimation(0,3,1,200);
+				playAnimation(0,3,1,200);
 			else
-				PlayAnimation(1,1,1,200);
+				playAnimation(1,1,1,200);
 		}
 	}
 
@@ -86,11 +86,11 @@ void CMovingSprite::updateAnimations()
 
 
 
-double CMovingSprite::GetDistance(int X1, int Y1, int X2, int Y2)
+double CMovingSprite::getDistance(int X1, int Y1, int X2, int Y2)
 {
-	double DifferenceX = X1 - X2;
-	double DifferenceY = Y1 - Y2;
-	double distance = sqrt((DifferenceX * DifferenceX) + (DifferenceY * DifferenceY));
+	double differenceX = X1 - X2;
+	double differenceY = Y1 - Y2;
+	double distance = sqrt((differenceX * differenceX) + (differenceY * differenceY));
 	return distance;
 }
 

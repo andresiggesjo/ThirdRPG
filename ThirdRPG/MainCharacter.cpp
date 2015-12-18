@@ -18,15 +18,15 @@ CMainCharacter::CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePa
 	health = 200;
 
 	create = true;
-	healthbar = new CSprite(csdl_setup->GetRenderer(), "data/health.png", 75,675,130,30, CCollisionRectangle(0,0,0,0)); 
+	healthbar = new CSprite(csdl_setup->getRenderer(), "data/health.png", 75,675,130,30, CCollisionRectangle(0,0,0,0)); 
 
 
-	SetUpAnimation(4,4);
-	SetOrgin(GetWidth()/2.0f, GetHeight());
+	setUpAnimation(4,4);
+	setOrgin(getWidth()/2.0f, getHeight());
 	bulletcheck = SDL_GetTicks();
 
 	timeCheck = SDL_GetTicks();
-	Follow = false;
+	follow = false;
 	firebullet = false;
 	distance = 0;
 	bullet_distance = 0;
@@ -38,19 +38,16 @@ CMainCharacter::CMainCharacter(SDL_Renderer* passed_renderer, std::string FilePa
 CMainCharacter::~CMainCharacter(void)
 {
 
+
 	delete healthbar;
+	if(firebullet)
+	deleteBullet();
 
 }
 
-double CMainCharacter::GetDistance(int X1, int Y1, int X2, int Y2)
-{
-	double DifferenceX = X1 - X2;
-	double DifferenceY = Y1 - Y2;
-	double distance = sqrt((DifferenceX * DifferenceX) + (DifferenceY * DifferenceY));
-	return distance;
-}
 
-void CMainCharacter::Draw()
+
+void CMainCharacter::draw()
 {
 
 	if(health == 0 || health < 0)
@@ -59,14 +56,14 @@ void CMainCharacter::Draw()
 	}
 	else
 	{
-		//Draw();
-		CMovingSprite::Draw();
-		healthbar->SetWidth(health);
-		healthbar->Draw();
+		
+		CMovingSprite::draw();
+		healthbar->setWidth(health);
+		healthbar->draw();
 		fire();
 		if(firebullet)
 		{
-			bullet->Draw();
+			bullet->draw();
 		}
 
 
@@ -76,7 +73,7 @@ void CMainCharacter::Draw()
 void CMainCharacter::updateAnimations()
 {
 	//generell move animation
-	float angle = atan2(Follow_Point_Y - GetY(), Follow_Point_X - GetX());
+	float angle = atan2(follow_Point_Y - getY(), follow_Point_X - getX());
 	angle = (angle * (180/3.14)) + 180;
 
 	if (!stopAnimation)
@@ -86,33 +83,33 @@ void CMainCharacter::updateAnimations()
 			//up
 
 			if (distance > 15)
-				PlayAnimation(0,3,3,200);
+				playAnimation(0,3,3,200);
 			else
-				PlayAnimation(1,1,3,200);
+				playAnimation(1,1,3,200);
 		}
 		else if (angle > 135 && angle <= 225)
 		{
 			//right
 			if (distance > 15)
-				PlayAnimation(0,3,2,200);
+				playAnimation(0,3,2,200);
 			else
-				PlayAnimation(1,1,2,200);
+				playAnimation(1,1,2,200);
 		}
 		else if (angle > 225 && angle <= 315)
 		{
 			//down
 			if (distance > 15)
-				PlayAnimation(0,3,0,200);
+				playAnimation(0,3,0,200);
 			else
-				PlayAnimation(1,1,0,200);
+				playAnimation(1,1,0,200);
 		}
 		else if ((angle <= 360 && angle > 315) || (angle >=0 && angle <= 45))
 		{
 			//left
 			if (distance > 20)
-				PlayAnimation(0,3,1,200);
+				playAnimation(0,3,1,200);
 			else
-				PlayAnimation(1,1,1,200);
+				playAnimation(1,1,1,200);
 		}
 	}
 
@@ -123,10 +120,10 @@ void CMainCharacter::updateControls()
 
 
 
-	if (timeCheck+10 < SDL_GetTicks() && Follow)
+	if (timeCheck+10 < SDL_GetTicks() && follow)
 	{
 
-		distance = GetDistance(GetX(), GetY(), Follow_Point_X, Follow_Point_Y);
+		distance = getDistance(getX(), getY(), follow_Point_X, follow_Point_Y);
 
 		if (distance == 0)
 			stopAnimation = true;
@@ -139,19 +136,19 @@ void CMainCharacter::updateControls()
 
 		if (distance > 15)
 		{
-			if (GetX() != Follow_Point_X)
+			if (getX() != follow_Point_X)
 			{
-				SetX( GetX() -  ((GetX()-Follow_Point_X)/distance) * 1.5f );
+				setX( getX() -  ((getX()-follow_Point_X)/distance) * 1.5f );
 			}
 
-			if (GetY() != Follow_Point_Y)
+			if (getY() != follow_Point_Y)
 			{
-				SetY( GetY() -  ((GetY()-Follow_Point_Y)/distance) * 1.5f );
+				setY( getY() -  ((getY()-follow_Point_Y)/distance) * 1.5f );
 			}
 		}
 		else
 		{
-			Follow = false;
+			follow = false;
 		}
 		timeCheck = SDL_GetTicks();
 	}
@@ -181,18 +178,18 @@ void CMainCharacter::fire()
 
 		if (anglez > 45 && anglez <= 135)
 		{
-			bullet->PlayAnimation(0,7,2,200);
-			Bullet_Follow_X = bobcurrentx + 200;
-			Bullet_Follow_Y = bobcurrenty - 450;
-			bullet_distance = GetDistance(bullet->GetX(), bullet->GetY(), Bullet_Follow_X, Bullet_Follow_Y);
+			bullet->playAnimation(0,7,2,200);
+			bullet_Follow_X = bobcurrentx + 200;
+			bullet_Follow_Y = bobcurrenty - 450;
+			bullet_distance = getDistance(bullet->getX(), bullet->getY(), bullet_Follow_X, bullet_Follow_Y);
 
 			//up
 			if (bullet_distance > 215)
 			{
-				if (bullet->GetY() != Bullet_Follow_Y)
+				if (bullet->getY() != bullet_Follow_Y)
 				{
 
-					bullet->SetY( bullet->GetY() -  ((bullet->GetY()-Bullet_Follow_Y)/bullet_distance) * 0.09f  );
+					bullet->setY( bullet->getY() -  ((bullet->getY()-bullet_Follow_Y)/bullet_distance) * 0.09f  );
 				}
 
 			}
@@ -207,18 +204,18 @@ void CMainCharacter::fire()
 		}
 		else if (anglez > 135 && anglez <= 225)
 		{
-			bullet->PlayAnimation(0,7,4,200);
-			Bullet_Follow_X = bobcurrentx + 450;
-			Bullet_Follow_Y = bobcurrenty - 200;
-			bullet_distance = GetDistance(bullet->GetX(), bullet->GetY(), Bullet_Follow_X, Bullet_Follow_Y);
+			bullet->playAnimation(0,7,4,200);
+			bullet_Follow_X = bobcurrentx + 450;
+			bullet_Follow_Y = bobcurrenty - 200;
+			bullet_distance = getDistance(bullet->getX(), bullet->getY(), bullet_Follow_X, bullet_Follow_Y);
 
 			//right
 			if (bullet_distance > 215)
 			{
-				if (bullet->GetX() != Bullet_Follow_X)
+				if (bullet->getX() != bullet_Follow_X)
 				{
 
-					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  0.09f  );
+					bullet->setX( bullet->getX() -  ((bullet->getX()-bullet_Follow_X)/bullet_distance) *  0.09f  );
 
 				}
 
@@ -230,23 +227,23 @@ void CMainCharacter::fire()
 				create = true;
 			}
 
-
+			
 
 		}
 		else if (anglez > 225 && anglez <= 315)
 		{
-			bullet->PlayAnimation(0,7,6,200);
-			Bullet_Follow_X = bobcurrentx - 200;
-			Bullet_Follow_Y = bobcurrenty + 450;
-			bullet_distance = GetDistance(bullet->GetX(), bullet->GetY(), Bullet_Follow_X, Bullet_Follow_Y);
+			bullet->playAnimation(0,7,6,200);
+			bullet_Follow_X = bobcurrentx - 200;
+			bullet_Follow_Y = bobcurrenty + 450;
+			bullet_distance = getDistance(bullet->getX(), bullet->getY(), bullet_Follow_X, bullet_Follow_Y);
 
 			//down
 			if (bullet_distance > 215)
 			{
-				if (bullet->GetY() != Bullet_Follow_Y)
+				if (bullet->getY() != bullet_Follow_Y)
 				{
 
-					bullet->SetY( bullet->GetY() -  ((bullet->GetY()-Bullet_Follow_Y)/bullet_distance) *  0.09f  );
+					bullet->setY( bullet->getY() -  ((bullet->getY()-bullet_Follow_Y)/bullet_distance) *  0.09f  );
 
 				}
 
@@ -263,18 +260,18 @@ void CMainCharacter::fire()
 		}
 		else if ((anglez <= 360 && anglez > 315) || (anglez >=0 && anglez <= 45))
 		{
-			bullet->PlayAnimation(0,7,0,200);
-			Bullet_Follow_X = bobcurrentx - 450;
-			Bullet_Follow_Y = bobcurrenty - 200;
-			bullet_distance = GetDistance(bullet->GetX(), bullet->GetY(), Bullet_Follow_X, Bullet_Follow_Y);
+			bullet->playAnimation(0,7,0,200);
+			bullet_Follow_X = bobcurrentx - 450;
+			bullet_Follow_Y = bobcurrenty - 200;
+			bullet_distance = getDistance(bullet->getX(), bullet->getY(), bullet_Follow_X, bullet_Follow_Y);
 
 			//left
 			if (bullet_distance > 215)
 			{
-				if (bullet->GetX() != Bullet_Follow_X)
+				if (bullet->getX() != bullet_Follow_X)
 				{
 
-					bullet->SetX( bullet->GetX() -  ((bullet->GetX()-Bullet_Follow_X)/bullet_distance) *  0.09f  );
+					bullet->setX( bullet->getX() -  ((bullet->getX()-bullet_Follow_X)/bullet_distance) *  0.09f  );
 
 
 				}
@@ -318,10 +315,10 @@ void CMainCharacter::mouseDown(const SDL_Event& e)
 
 	if (e.button.button == SDL_BUTTON_LEFT)
 	{
-		Follow_Point_X = e.button.x;
-		Follow_Point_Y = e.button.y;
+		follow_Point_X = e.button.x;
+		follow_Point_Y = e.button.y;
 
-		Follow = true;
+		follow = true;
 	}
 
 
@@ -342,14 +339,14 @@ void CMainCharacter::keyDown(const SDL_Event& e)
 
 				if(create)
 				{
-					bullet = new CSprite(csdl_setup->GetRenderer(), "data/fireball_1.png", GetX(),GetY(),100,120, CCollisionRectangle(0,50,75,75)); 
-					bullet->SetUpAnimation(8,8);
-					bullet->SetOrgin(bullet->GetWidth()/2.0f, bullet->GetHeight());
+					bullet = new CSprite(csdl_setup->getRenderer(), "data/fireball_1.png", getX(),getY(),100,120, CCollisionRectangle(0,50,75,75)); 
+					bullet->setUpAnimation(8,8);
+					bullet->setOrgin(bullet->getWidth()/2.0f, bullet->getHeight());
 					firebullet = true;
 
-					bobcurrentx = GetX();
-					bobcurrenty = GetY();
-					anglez = atan2(Follow_Point_Y - GetY(), Follow_Point_X - GetX());
+					bobcurrentx = getX();
+					bobcurrenty = getY();
+					anglez = atan2(follow_Point_Y - getY(), follow_Point_X - getX());
 					anglez = (anglez * (180/3.14)) + 180;
 					create = false;
 				}
@@ -368,77 +365,70 @@ void CMainCharacter::keyDown(const SDL_Event& e)
 
 }
 
-void CMainCharacter::setColliders(std::vector<CSprite*> passed_borders)
-{
-	borders = passed_borders;
-}
-void CMainCharacter::setCollidersEnemy(std::vector<CSprite*> passed_enemy)
-{
-	enemies = passed_enemy;
-}
+
 void CMainCharacter::collidingEffter()
 {
 	
 	for(std::vector<CSprite*>::iterator it = borders.begin(); it != borders.end(); it++)
 		{
-			if(this->isColliding((*it)->GetCollisionRect()))
+			if(this->isColliding((*it)->getCollisionRect()))
 			{
-				if (GetX() > Follow_Point_X)
+				if (getX() > follow_Point_X)
  				{
- 					SetX(GetX() + 15);
+ 					setX(getX() + 15);
 					setHealth(health - 5);
-					Follow_Point_X = GetX();
+					follow_Point_X = getX();
  
  				}
- 				if (GetX() < Follow_Point_X)
+ 				if (getX() < follow_Point_X)
  				{
- 					SetX(GetX() - 15);
+ 					setX(getX() - 15);
 					setHealth(health - 5);
-					Follow_Point_X = GetX();
+					follow_Point_X = getX();
  				}
  
- 				if (GetY() > Follow_Point_Y)
+ 				if (getY() > follow_Point_Y)
  				{
- 					SetY(GetY() + 15);
+ 					setY(getY() + 15);
 					setHealth(health - 5);
-					Follow_Point_Y = GetY();
+					follow_Point_Y = getY();
  				}
- 				if (GetY() < Follow_Point_Y)
+ 				if (getY() < follow_Point_Y)
  				{
- 					SetY(GetY() - 15);
+ 					setY(getY() - 15);
 					setHealth(health - 5);
-					Follow_Point_Y = GetY();
+					follow_Point_Y = getY();
  				}
 				
 			}
 		}
 		for(std::vector<CSprite*>::iterator it = enemies.begin(); it != enemies.end(); it++)
 		{
-			if(this->isColliding((*it)->GetCollisionRect()))
+			if(this->isColliding((*it)->getCollisionRect()))
 			{
-				if (GetX() > Follow_Point_X)
+				if (getX() > follow_Point_X)
  				{
- 					(*it)->SetX((*it)->GetX() + 15);
+ 					(*it)->setX((*it)->getX() + 15);
 					setHealth(health - 5);
 				
  
  				}
- 				if (GetX() < Follow_Point_X)
+ 				if (getX() < follow_Point_X)
  				{
- 					(*it)->SetX((*it)->GetX() - 15);
+ 					(*it)->setX((*it)->getX() - 15);
 					setHealth(health - 5);
 					
  				}
  
- 				if (GetY() > Follow_Point_Y)
+ 				if (getY() > follow_Point_Y)
  				{
- 					(*it)->SetY((*it)->GetY() + 15);
+ 					(*it)->setY((*it)->getY() + 15);
 					setHealth(health - 5);
 					
  				}
- 				if (GetY() < Follow_Point_Y)
+ 				if (getY() < follow_Point_Y)
  				{
- 					(*it)->SetY((*it)->GetY() - 15);
+ 					(*it)->setY((*it)->getY() - 15);
 					setHealth(health - 5);
 					
  				}
@@ -453,4 +443,12 @@ void CMainCharacter::deleteBullet()
 	create = true;
 	delete bullet;
 	
+}
+void CMainCharacter::addEnemies(CSprite* comp)
+{
+	enemies.push_back(comp);
+}
+void CMainCharacter::addBorders(CSprite* comp)
+{
+	borders.push_back(comp);
 }

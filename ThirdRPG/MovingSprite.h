@@ -16,13 +16,10 @@ public:
 
 	static CMovingSprite* getInstance(SDL_Renderer* passed_renderer, std::string FilePath, int x, int y, int w, int h, CCollisionRectangle passed_CollisionRect, CSDL_Setup* passed_SDL_Setup);
 
-	double GetDistance(int X1, int Y1, int X2, int Y2);
+	double getDistance(int X1, int Y1, int X2, int Y2);
+
 	void updateAnimations();
-
 	void update();
-
-
-
 	void move();
 
 
@@ -36,12 +33,12 @@ private:
 
 	int timeCheck;
 	int animationDelay;
-
-	bool Follow;
-	int Follow_Point_X;
-	int Follow_Point_Y;
+	int follow_Point_X;
+	int follow_Point_Y;
 
 	float distance;
+	
+	bool follow;
 	bool stopAnimation;
 };
 
